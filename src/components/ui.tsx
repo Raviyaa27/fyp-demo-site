@@ -2,43 +2,59 @@ import { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 
 export const REGION_COLORS: Record<string, string> = {
-  region_1: '#2563eb',
-  region_2: '#059669',
-  region_3: '#d97706',
+  region_1: '#16a34a',
+  region_2: '#d97706',
+  region_3: '#db2777',
   region_4: '#7c3aed',
 }
 
-export function Section({
-  id,
+export function PageHeader({
   kicker,
+  title,
+  lead,
+}: {
+  kicker: string
+  title: ReactNode
+  lead?: ReactNode
+}) {
+  return (
+    <div className="mx-auto max-w-3xl pb-12 pt-8 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <span className="section-kicker">{kicker}</span>
+        <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">{title}</h1>
+        {lead && <p className="mt-4 text-[15px] leading-relaxed text-slate-600 sm:text-base">{lead}</p>}
+      </motion.div>
+    </div>
+  )
+}
+
+export function Block({
   title,
   intro,
   children,
-  tint,
+  className = '',
 }: {
-  id: string
-  kicker: string
-  title: string
+  title?: ReactNode
   intro?: ReactNode
   children: ReactNode
-  tint?: string
+  className?: string
 }) {
   return (
-    <section id={id} className="scroll-mt-20 border-t border-line py-16" style={{ background: tint }}>
-      <div className="mx-auto max-w-6xl px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5 }}
-        >
-          <span className="section-kicker">{kicker}</span>
-          <h2 className="mb-3 text-2xl font-bold sm:text-3xl">{title}</h2>
-          {intro && <div className="mb-8 max-w-3xl text-[15px] leading-relaxed text-slate-600">{intro}</div>}
-        </motion.div>
-        {children}
-      </div>
-    </section>
+    <motion.section
+      initial={{ opacity: 0, y: 26 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      className={`py-8 ${className}`}
+    >
+      {title && <h2 className="mb-3 text-xl font-bold sm:text-2xl">{title}</h2>}
+      {intro && <div className="mb-7 max-w-3xl text-[15px] leading-relaxed text-slate-600">{intro}</div>}
+      {children}
+    </motion.section>
   )
 }
 
@@ -62,7 +78,7 @@ export function RegionChip({ region }: { region: 1 | 2 | 3 | 4 }) {
   return (
     <span
       className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold"
-      style={{ background: `${color}18`, color }}
+      style={{ background: `${color}16`, color }}
     >
       <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
       Region {region}
@@ -87,11 +103,11 @@ export function ServiceCard({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.45 }}
-      className="card flex flex-col p-5"
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="card card-hover flex flex-col p-5"
       style={{ borderTop: `3px solid ${color}` }}
     >
       <div className="mb-1 flex items-center justify-between gap-2">
@@ -135,18 +151,22 @@ export function Stepper({ steps, color = '#1d4ed8' }: { steps: Step[]; color?: s
       {steps.map((s, i) => (
         <motion.li
           key={i}
-          initial={{ opacity: 0, x: -16 }}
+          initial={{ opacity: 0, x: -18 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.4, delay: i * 0.06 }}
+          transition={{ duration: 0.45, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
           className="relative pb-7 pl-8 last:pb-0"
         >
-          <span
+          <motion.span
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20, delay: i * 0.05 + 0.1 }}
             className="absolute -left-[15px] top-0 flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white shadow"
             style={{ background: s.color ?? color }}
           >
             {i + 1}
-          </span>
+          </motion.span>
           <div className="flex flex-wrap items-center gap-2">
             <h4 className="font-semibold">{s.title}</h4>
             {s.badge && <FileBadge>{s.badge}</FileBadge>}
@@ -155,23 +175,5 @@ export function Stepper({ steps, color = '#1d4ed8' }: { steps: Step[]; color?: s
         </motion.li>
       ))}
     </ol>
-  )
-}
-
-export function ScreenshotPlaceholder({ caption, tall = false }: { caption: string; tall?: boolean }) {
-  return (
-    <figure className="card overflow-hidden">
-      <div
-        className={`flex ${tall ? 'h-64' : 'h-44'} flex-col items-center justify-center gap-2 border-b border-dashed border-line bg-slate-50 text-slate-400`}
-      >
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
-          <rect x="3" y="4" width="18" height="14" rx="2" />
-          <circle cx="8.5" cy="9.5" r="1.5" />
-          <path d="M21 15l-5-5-9 8" />
-        </svg>
-        <span className="text-xs font-medium">Screenshot placeholder — replace with your capture</span>
-      </div>
-      <figcaption className="px-4 py-3 text-sm text-slate-600">{caption}</figcaption>
-    </figure>
   )
 }

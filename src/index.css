@@ -4,11 +4,15 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 72px;
 }
 
 body {
   @apply bg-paper text-ink antialiased;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(59, 130, 246, 0.07) 0%, transparent 42%),
+    radial-gradient(circle at 88% 18%, rgba(139, 92, 246, 0.07) 0%, transparent 42%),
+    radial-gradient(circle at 50% 95%, rgba(16, 185, 129, 0.05) 0%, transparent 45%);
+  background-attachment: fixed;
 }
 
 /* animated dashed flow lines used in SVG diagrams */
@@ -26,9 +30,38 @@ body {
   animation: flow-dash 2.2s linear infinite;
 }
 
+@keyframes shine {
+  0%,
+  60% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(110%);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.float-y {
+  animation: float-y 4.5s ease-in-out infinite;
+}
+
 @layer components {
   .card {
-    @apply rounded-xl border border-line bg-white shadow-sm;
+    @apply rounded-2xl border border-line bg-white shadow-[0_2px_12px_rgba(15,23,42,0.05)] transition-shadow duration-300;
+  }
+  .card-hover {
+    @apply hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(15,23,42,0.10)];
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease;
   }
   .badge-file {
     @apply inline-flex items-center gap-1 rounded-md border border-line bg-slate-50 px-2 py-0.5 font-mono text-[11px] text-slate-600;
@@ -37,6 +70,9 @@ body {
     @apply inline-flex items-center rounded-md bg-slate-800 px-2 py-0.5 font-mono text-[11px] text-emerald-300;
   }
   .section-kicker {
-    @apply mb-2 inline-block rounded-full border border-line bg-white px-3 py-1 text-xs font-semibold uppercase tracking-widest text-accent;
+    @apply mb-3 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50/70 px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-accent;
+  }
+  .grad-text {
+    @apply bg-gradient-to-r from-blue-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent;
   }
 }
