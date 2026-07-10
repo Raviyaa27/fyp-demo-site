@@ -9,10 +9,11 @@ Built with React + Vite + TypeScript + Tailwind CSS + Framer Motion.
 
 Hash-routed multi-page walkthrough (works on GitHub Pages without a server):
 
-- **Overview** — hero, key stats, the platform in six moves, page directory
+- **Overview** — hero, key stats, system-architecture image, the platform in six moves, page directory
 - **Architecture** — animated 2.5D system-architecture diagram (Non-RT RIC platform over four Near-RT RIC regions with RAN layer), O-RAN usage, service cards
 - **Knowledge** — rApp1 CTI ingestion/pruning pipeline and the Global RAG knowledge base
 - **Detection** — interactive play-through simulation of the threat→mitigation path, Mini RAG strict decision logic, ThreatEvent contract
+- **MCP** — the Model Context Protocol backbone: three FastMCP servers and their typed tools, plus the two pipelines (vertical escalation, horizontal distribution) with an animated diagram
 - **Sharing** — inter-platform STIX/TAXII-style threat sharing with similarity-gated ingestion
 - **Dashboard** — rApp2 region-partitioned persistence and the live monitoring UI
 - **Run Guide** — dependency-ordered startup sequence

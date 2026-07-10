@@ -5,16 +5,18 @@ import OverviewPage from './pages/OverviewPage'
 import ArchitecturePage from './pages/ArchitecturePage'
 import KnowledgePage from './pages/KnowledgePage'
 import DetectionPage from './pages/DetectionPage'
+import McpPage from './pages/McpPage'
 import SharingPage from './pages/SharingPage'
 import DataPage from './pages/DataPage'
 import RunPage from './pages/RunPage'
 
-const ORDER: PageId[] = ['overview', 'architecture', 'knowledge', 'detection', 'sharing', 'data', 'run']
+const ORDER: PageId[] = ['overview', 'architecture', 'knowledge', 'detection', 'mcp', 'sharing', 'data', 'run']
 const TITLES: Record<PageId, [string, string]> = {
   overview: ['', ''],
   architecture: ['Next up', 'CTI Knowledge Pipeline'],
   knowledge: ['Next up', 'Live Threat Detection'],
-  detection: ['Next up', 'Inter-Platform Sharing'],
+  detection: ['Next up', 'MCP Intelligence Sharing'],
+  mcp: ['Next up', 'Inter-Platform Sharing'],
   sharing: ['Next up', 'Persistence & Dashboard'],
   data: ['Next up', 'Execution Order'],
   run: ['Back to', 'Overview'],
@@ -64,6 +66,7 @@ export default function App() {
             {page === 'architecture' && <ArchitecturePage />}
             {page === 'knowledge' && <KnowledgePage />}
             {page === 'detection' && <DetectionPage />}
+            {page === 'mcp' && <McpPage />}
             {page === 'sharing' && <SharingPage />}
             {page === 'data' && <DataPage />}
             {page === 'run' && <RunPage />}

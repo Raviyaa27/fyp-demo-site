@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { RegionChip, Block } from '../components/ui'
 import { PageId } from '../router'
+import archImg from '../assets/fyp-architecture.jpeg'
 
 const stats = [
   ['4', 'Near-RT RIC regions', 'ric-1 … ric-4, fully isolated'],
@@ -22,6 +23,7 @@ const directory: { page: PageId; title: string; desc: string; icon: string }[] =
   { page: 'architecture', title: 'System Architecture', desc: 'The full multi-region picture — Non-RT RIC platform, four Near-RT RICs and the RAN layer.', icon: '🏗️' },
   { page: 'knowledge', title: 'CTI Knowledge Pipeline', desc: 'How rApp1 turns MITRE ATT&CK + FiGHT into a pruned O-RAN knowledge base for the RAGs.', icon: '📚' },
   { page: 'detection', title: 'Live Threat Detection', desc: 'Interactive simulation of the demo path — from simulated threat to mitigation report.', icon: '⚡' },
+  { page: 'mcp', title: 'MCP Intelligence Sharing', desc: 'How the agents call each other as typed MCP tools over SSE — the protocol backbone of the platform.', icon: '🔌' },
   { page: 'sharing', title: 'Inter-Platform Sharing', desc: 'STIX/TAXII-style intelligence exchange between regions, with similarity-gated ingestion.', icon: '🔁' },
   { page: 'data', title: 'Persistence & Dashboard', desc: 'Region-partitioned PostgreSQL storage and the live global monitoring UI.', icon: '📊' },
   { page: 'run', title: 'Execution Order', desc: 'Dependency-ordered startup guide for demonstrating the whole platform.', icon: '🚀' },
@@ -86,6 +88,48 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
           </motion.div>
         ))}
       </div>
+
+      {/* system architecture image */}
+      <Block
+        title="The system at a glance"
+        intro={
+          <>
+            The full platform on one canvas: the Non-RT RIC / O-Cloud / SMO layer hosting the MCP Server, Global RAG
+            Agent, threat-intel rApps and global dashboard, over the regional Near-RT RICs — each with its Threat
+            Simulator, Probe Manager, Mini RAG Agent and Inter-Platform Agent — connected to their RAN layers over
+            the E2 interface.
+          </>
+        }
+        className="mt-10"
+      >
+        <motion.figure
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="card overflow-hidden"
+        >
+          <div className="overflow-x-auto p-3 sm:p-5">
+            <img
+              src={archImg}
+              alt="Multi-Region O-RAN CTI Platform system architecture"
+              className="mx-auto w-full min-w-[820px] max-w-[1200px] rounded-xl"
+            />
+          </div>
+          <figcaption className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-slate-50/60 px-5 py-3 text-xs text-slate-500">
+            <span>System architecture — Non-RT RIC / SMO platform over the regional Near-RT RICs and their RAN layers.</span>
+            <button
+              onClick={() => navigate('architecture')}
+              className="inline-flex items-center gap-1 font-bold text-accent hover:underline"
+            >
+              Explore the interactive version
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </figcaption>
+        </motion.figure>
+      </Block>
 
       {/* journey */}
       <Block

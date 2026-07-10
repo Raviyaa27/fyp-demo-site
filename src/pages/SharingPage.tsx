@@ -70,13 +70,20 @@ export default function SharingPage() {
               {
                 title: 'Inter-Platform Agent builds a STIX/TAXII-style bundle',
                 badge: 'inter-platform-agent/app/main.py',
-                body: 'The threat intel is packaged in a standards-inspired sharing format and sent to peer regions.',
+                body: (
+                  <>
+                    The source region hands off the threat + mitigation by calling the IPA's{' '}
+                    <Endpoint>inter_platform.distribute_threat</Endpoint> MCP tool. The IPA sanitizes region-specific
+                    fields, tags the source region and packages the intel in a standards-inspired sharing format.
+                  </>
+                ),
               },
               {
                 title: 'Receiving region checks: “Do I already know this?”',
                 body: (
                   <>
-                    The receiving Mini RAG compares the incoming intel against its local KB and returns{' '}
+                    The IPA fans out concurrent <Endpoint>mini_rag.check_threat_intel</Endpoint> calls to every peer
+                    region. Each Mini RAG compares the incoming intel against its local KB and returns{' '}
                     <strong>YES/NO, a similarity score, reasoning and a threshold decision</strong> — e.g. YES if
                     similarity ≥ 75%, otherwise NO.
                   </>
@@ -130,9 +137,11 @@ export default function SharingPage() {
               </p>
             </div>
             <div className="card card-hover p-5">
-              <h4 className="mb-2 font-bold">Files & endpoints</h4>
+              <h4 className="mb-2 font-bold">Files, tools & endpoints</h4>
               <div className="flex flex-wrap gap-1.5">
                 <FileBadge>fyp-cti-non-rt-ric/inter-platform-agent/app/main.py</FileBadge>
+                <FileBadge>inter_platform.distribute_threat</FileBadge>
+                <FileBadge>mini_rag.check_threat_intel</FileBadge>
                 <FileBadge>/api/v1/ingest-local-knowledge</FileBadge>
                 <FileBadge>rApp2 Mini RAG persistence endpoints</FileBadge>
               </div>

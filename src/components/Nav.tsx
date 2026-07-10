@@ -25,14 +25,14 @@ export default function Nav({ page, navigate }: { page: PageId; navigate: (p: Pa
         </button>
 
         {/* desktop nav — fits without scrolling */}
-        <nav className="ml-auto hidden items-center gap-1 md:flex">
+        <nav className="ml-auto hidden items-center gap-1 lg:flex">
           {PAGES.map((p) => {
             const active = page === p.id
             return (
               <button
                 key={p.id}
                 onClick={() => navigate(p.id)}
-                className={`relative rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition-colors ${
+                className={`relative whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-semibold transition-colors ${
                   active ? 'text-white' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -52,7 +52,7 @@ export default function Nav({ page, navigate }: { page: PageId; navigate: (p: Pa
         {/* mobile hamburger */}
         <button
           onClick={() => setOpen(!open)}
-          className="ml-auto flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 md:hidden"
+          className="ml-auto flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 lg:hidden"
           aria-label="Menu"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -68,7 +68,7 @@ export default function Nav({ page, navigate }: { page: PageId; navigate: (p: Pa
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="overflow-hidden border-t border-line bg-white/95 backdrop-blur md:hidden"
+            className="overflow-hidden border-t border-line bg-white/95 backdrop-blur lg:hidden"
           >
             <div className="grid gap-1 p-3">
               {PAGES.map((p) => (

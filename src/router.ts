@@ -5,6 +5,7 @@ export type PageId =
   | 'architecture'
   | 'knowledge'
   | 'detection'
+  | 'mcp'
   | 'sharing'
   | 'data'
   | 'run'
@@ -14,6 +15,7 @@ export const PAGES: { id: PageId; label: string; title: string }[] = [
   { id: 'architecture', label: 'Architecture', title: 'System Architecture' },
   { id: 'knowledge', label: 'Knowledge', title: 'CTI Knowledge Pipeline' },
   { id: 'detection', label: 'Detection', title: 'Live Threat Detection' },
+  { id: 'mcp', label: 'MCP', title: 'MCP Intelligence Sharing' },
   { id: 'sharing', label: 'Sharing', title: 'Inter-Platform Threat Sharing' },
   { id: 'data', label: 'Dashboard', title: 'Persistence & Dashboard' },
   { id: 'run', label: 'Run Guide', title: 'Execution Order' },
