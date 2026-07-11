@@ -9,6 +9,7 @@ export type PageId =
   | 'sharing'
   | 'data'
   | 'run'
+  | 'future'
 
 export const PAGES: { id: PageId; label: string; title: string }[] = [
   { id: 'overview', label: 'Overview', title: 'Project Overview' },
@@ -19,6 +20,7 @@ export const PAGES: { id: PageId; label: string; title: string }[] = [
   { id: 'sharing', label: 'Sharing', title: 'Inter-Platform Threat Sharing' },
   { id: 'data', label: 'Dashboard', title: 'Persistence & Dashboard' },
   { id: 'run', label: 'Run Guide', title: 'Execution Order' },
+  { id: 'future', label: 'Future', title: 'Future Work & Research Extensions' },
 ]
 
 function parseHash(): PageId {

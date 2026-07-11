@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion'
 import { PageHeader, Block, Stepper, FileBadge, Endpoint, REGION_COLORS } from '../components/ui'
+import dashboardVideo from '../assets/dashboard-video.mp4'
 
 export default function DataPage() {
   return (
@@ -96,7 +98,6 @@ export default function DataPage() {
             external intel carries a visible tag distinguishing it from local detections.
           </>
         }
-        className="pb-16"
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="card card-hover p-6">
@@ -126,6 +127,50 @@ export default function DataPage() {
             </div>
           </div>
         </div>
+      </Block>
+
+      <Block
+        title="The dashboard in action"
+        intro={
+          <>
+            A recorded walkthrough of the live monitoring UI — region switching, live threat updates, mitigation
+            insight and the shared-intel tags — followed by a link to the running deployment.
+          </>
+        }
+        className="pb-16"
+      >
+        <motion.figure
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="card overflow-hidden"
+        >
+          <video
+            src={dashboardVideo}
+            controls
+            muted
+            loop
+            autoPlay
+            playsInline
+            preload="metadata"
+            className="w-full bg-slate-900"
+          />
+          <figcaption className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-slate-50/60 px-5 py-3 text-xs text-slate-500">
+            <span>Global dashboard demo — live threats, stats and mitigation insights across all four regions.</span>
+            <a
+              href="http://193.1.132.238/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 px-4 py-2 text-xs font-bold text-white shadow transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              Open the live dashboard
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
+            </a>
+          </figcaption>
+        </motion.figure>
       </Block>
     </div>
   )

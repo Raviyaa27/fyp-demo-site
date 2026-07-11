@@ -9,8 +9,9 @@ import McpPage from './pages/McpPage'
 import SharingPage from './pages/SharingPage'
 import DataPage from './pages/DataPage'
 import RunPage from './pages/RunPage'
+import FuturePage from './pages/FuturePage'
 
-const ORDER: PageId[] = ['overview', 'architecture', 'knowledge', 'detection', 'mcp', 'sharing', 'data', 'run']
+const ORDER: PageId[] = ['overview', 'architecture', 'knowledge', 'detection', 'mcp', 'sharing', 'data', 'run', 'future']
 const TITLES: Record<PageId, [string, string]> = {
   overview: ['', ''],
   architecture: ['Next up', 'CTI Knowledge Pipeline'],
@@ -19,7 +20,8 @@ const TITLES: Record<PageId, [string, string]> = {
   mcp: ['Next up', 'Inter-Platform Sharing'],
   sharing: ['Next up', 'Persistence & Dashboard'],
   data: ['Next up', 'Execution Order'],
-  run: ['Back to', 'Overview'],
+  run: ['Next up', 'Future Work & Research Extensions'],
+  future: ['Back to', 'Overview'],
 }
 
 function NextPageLink({ page, navigate }: { page: PageId; navigate: (p: PageId) => void }) {
@@ -70,6 +72,7 @@ export default function App() {
             {page === 'sharing' && <SharingPage />}
             {page === 'data' && <DataPage />}
             {page === 'run' && <RunPage />}
+            {page === 'future' && <FuturePage />}
             <NextPageLink page={page} navigate={navigate} />
           </motion.div>
         </AnimatePresence>

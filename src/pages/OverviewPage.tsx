@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { RegionChip, Block } from '../components/ui'
 import { PageId } from '../router'
-import archImg from '../assets/fyp-architecture.jpeg'
+import archImg from '../assets/overview-image-new.jpeg'
 
 const stats = [
   ['4', 'Near-RT RIC regions', 'ric-1 … ric-4, fully isolated'],
@@ -27,6 +27,7 @@ const directory: { page: PageId; title: string; desc: string; icon: string }[] =
   { page: 'sharing', title: 'Inter-Platform Sharing', desc: 'STIX/TAXII-style intelligence exchange between regions, with similarity-gated ingestion.', icon: '🔁' },
   { page: 'data', title: 'Persistence & Dashboard', desc: 'Region-partitioned PostgreSQL storage and the live global monitoring UI.', icon: '📊' },
   { page: 'run', title: 'Execution Order', desc: 'Dependency-ordered startup guide for demonstrating the whole platform.', icon: '🚀' },
+  { page: 'future', title: 'Future Work', desc: 'Planned research extensions — domain-wise CTI feeds, subscriptions, immediate actions, a dApp and UE testing.', icon: '🔭' },
 ]
 
 export default function OverviewPage({ navigate }: { navigate: (p: PageId) => void }) {
@@ -117,7 +118,10 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
             />
           </div>
           <figcaption className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-slate-50/60 px-5 py-3 text-xs text-slate-500">
-            <span>System architecture — Non-RT RIC / SMO platform over the regional Near-RT RICs and their RAN layers.</span>
+            <span>
+              System architecture — Non-RT RIC / SMO platform over the regional Near-RT RICs and their domain-specific
+              RANs (rural connectivity, university campus, smart city / tech park).
+            </span>
             <button
               onClick={() => navigate('architecture')}
               className="inline-flex items-center gap-1 font-bold text-accent hover:underline"

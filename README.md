@@ -15,8 +15,9 @@ Hash-routed multi-page walkthrough (works on GitHub Pages without a server):
 - **Detection** — interactive play-through simulation of the threat→mitigation path, Mini RAG strict decision logic, ThreatEvent contract
 - **MCP** — the Model Context Protocol backbone: three FastMCP servers and their typed tools, plus the two pipelines (vertical escalation, horizontal distribution) with an animated diagram
 - **Sharing** — inter-platform STIX/TAXII-style threat sharing with similarity-gated ingestion
-- **Dashboard** — rApp2 region-partitioned persistence and the live monitoring UI
+- **Dashboard** — rApp2 region-partitioned persistence, the live monitoring UI, demo video and live-deployment link
 - **Run Guide** — dependency-ordered startup sequence
+- **Future** — planned research extensions: domain-wise CTI feeds, vendor/operator subscriptions, immediate-action highlighting, an end-to-end dApp and a UE penetration-testing tool
 
 ## Develop
 

@@ -13,7 +13,7 @@ export default function Nav({ page, navigate }: { page: PageId; navigate: (p: Pa
           className="flex items-center gap-2.5 text-left font-extrabold tracking-tight"
         >
           <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 to-violet-600 text-[11px] font-black text-white shadow-md">
-            O-CTI
+            CTI
             <span className="absolute inset-0 animate-[shine_3.2s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
           </span>
           <span className="hidden leading-tight sm:block">
@@ -32,7 +32,7 @@ export default function Nav({ page, navigate }: { page: PageId; navigate: (p: Pa
               <button
                 key={p.id}
                 onClick={() => navigate(p.id)}
-                className={`relative whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] font-semibold transition-colors ${
+                className={`relative whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-semibold transition-colors ${
                   active ? 'text-white' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
