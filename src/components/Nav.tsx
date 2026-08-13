@@ -24,7 +24,7 @@ export default function Nav({ page, navigate }: { page: PageId; navigate: (p: Pa
           </span>
         </button>
 
-        {/* desktop nav — fits without scrolling */}
+        {/* desktop nav, fits without scrolling */}
         <nav className="ml-auto hidden items-center gap-1 lg:flex">
           {PAGES.map((p) => {
             const active = page === p.id

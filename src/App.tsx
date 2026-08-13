@@ -78,7 +78,7 @@ export default function App() {
         </AnimatePresence>
       </main>
       <footer className="border-t border-line bg-white/70 py-8 text-center text-sm text-slate-500 backdrop-blur">
-        <p className="font-semibold text-ink">Multi-Region O-RAN CTI Platform — Final Year Project</p>
+        <p className="font-semibold text-ink">Multi-Region O-RAN CTI Platform · Final Year Project</p>
         <p className="mt-1">Mini RAG · Global RAG · rApps · xApps · Inter-Platform Threat Sharing · Global Dashboard</p>
       </footer>
     </>

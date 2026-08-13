@@ -16,7 +16,7 @@ const COMMON: SimStep[] = [
   {
     nodes: ['xapp2'],
     msg: 'Threat simulated',
-    detail: 'xApp2 generates a simulated O-RAN threat — e.g. A1 malformed policy, F1 unauthorized access or E2 flooding.',
+    detail: 'xApp2 generates a simulated O-RAN threat, for example an A1 malformed policy, F1 unauthorized access or E2 flooding.',
     tone: 'warn',
   },
   {
@@ -43,7 +43,7 @@ const COMMON: SimStep[] = [
     nodes: ['minirag', 'localkb'],
     links: ['minirag-localkb'],
     msg: 'Searching regional KB…',
-    detail: 'Mini RAG performs semantic search against its own regional vector DB only — never another region’s.',
+    detail: 'Mini RAG performs semantic search against its own regional vector DB only, never another region’s.',
     tone: 'info',
   },
 ]
@@ -75,7 +75,7 @@ const STEPS: Record<Scenario, SimStep[]> = {
       nodes: ['rapp2', 'dash'],
       links: ['rapp2-dash'],
       msg: 'Live WebSocket push',
-      detail: 'The dashboard backend broadcasts over /ws/{region_id} — the threat and its mitigation appear instantly on the global dashboard.',
+      detail: 'The dashboard backend broadcasts over /ws/{region_id}, so the threat and its mitigation appear instantly on the global dashboard.',
       tone: 'ok',
     },
   ],
@@ -84,7 +84,7 @@ const STEPS: Record<Scenario, SimStep[]> = {
     {
       nodes: ['localkb'],
       msg: 'Weak local match ✗',
-      detail: 'A strict check fails — e.g. similarity below STRICT_LOCAL_THRESHOLD or no useful mitigation. The local answer is rejected.',
+      detail: 'A strict check fails, for example similarity below STRICT_LOCAL_THRESHOLD or no useful mitigation. The local answer is rejected.',
       tone: 'warn',
     },
     {
@@ -103,7 +103,7 @@ const STEPS: Record<Scenario, SimStep[]> = {
     {
       nodes: ['globalrag', 'minirag', 'localkb'],
       links: ['minirag-globalrag', 'minirag-localkb'],
-      msg: 'Learning — this region only',
+      msg: 'Learning: this region only',
       detail: 'The useful global answer is stored in this region’s KB and vector DB (duplicates avoided). Other regions and the Global RAG DB are not updated.',
       tone: 'ok',
     },
@@ -333,7 +333,7 @@ export default function DetectionSim() {
             {current ? (
               <>
                 <span className="font-mono text-xs font-bold uppercase tracking-wide">
-                  Step {step + 1}/{steps.length} — {current.msg}
+                  Step {step + 1}/{steps.length} · {current.msg}
                 </span>
                 <p className="mt-1 text-sm leading-relaxed">{current.detail}</p>
               </>

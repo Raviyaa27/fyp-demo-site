@@ -15,12 +15,12 @@ export default function DataPage() {
         lead={
           <>
             Every Mini RAG result lands in region-specific PostgreSQL tables via rApp2, and each save triggers a
-            notification that becomes a live WebSocket push to the dashboard — no polling anywhere in the pipeline.
+            notification that becomes a live WebSocket push to the dashboard, with no polling anywhere in the pipeline.
           </>
         }
       />
 
-      <Block title="rApp2 — region-partitioned persistence">
+      <Block title="rApp2: region-partitioned persistence">
         <div className="grid gap-8 lg:grid-cols-[360px_1fr]">
           <div className="card card-hover p-6">
             <h3 className="mb-4 font-bold">PostgreSQL tables</h3>
@@ -55,7 +55,7 @@ export default function DataPage() {
                 title: 'Mini RAG posts the threat event',
                 body: (
                   <>
-                    <Endpoint>POST /api/mini-rag/events</Endpoint> — stored in the region's{' '}
+                    <Endpoint>POST /api/mini-rag/events</Endpoint>, stored in the region's{' '}
                     <code className="font-mono text-xs">…_events</code> table.
                   </>
                 ),
@@ -64,7 +64,7 @@ export default function DataPage() {
                 title: 'Mini RAG posts the mitigation report',
                 body: (
                   <>
-                    <Endpoint>POST /api/mini-rag/mitigations</Endpoint> — stored in the region's{' '}
+                    <Endpoint>POST /api/mini-rag/mitigations</Endpoint>, stored in the region's{' '}
                     <code className="font-mono text-xs">…_mitigations</code> table.
                   </>
                 ),
@@ -78,7 +78,7 @@ export default function DataPage() {
                 badge: 'dashboard_backend.py',
                 body: (
                   <>
-                    Connected clients on <Endpoint>/ws/{'{region_id}'}</Endpoint> receive the update instantly — the
+                    Connected clients on <Endpoint>/ws/{'{region_id}'}</Endpoint> receive the update instantly, so the
                     dashboard refreshes live during the demo.
                   </>
                 ),
@@ -94,7 +94,7 @@ export default function DataPage() {
           <>
             The dashboard is the single pane of glass over all four regions. A region selector switches the view;
             each region streams its own live updates. It shows threat lists with severity, status, confidence and
-            affected component, per-threat mitigation insight, regional stats and metrics history — and shared/
+            affected component, per-threat mitigation insight, regional stats and metrics history. Shared or
             external intel carries a visible tag distinguishing it from local detections.
           </>
         }
@@ -133,8 +133,8 @@ export default function DataPage() {
         title="The dashboard in action"
         intro={
           <>
-            A recorded walkthrough of the live monitoring UI — region switching, live threat updates, mitigation
-            insight and the shared-intel tags — followed by a link to the running deployment.
+            A recorded walkthrough of the live monitoring UI: region switching, live threat updates, mitigation
+            insight and the shared-intel tags, followed by a link to the running deployment.
           </>
         }
         className="pb-16"
@@ -157,7 +157,7 @@ export default function DataPage() {
             className="w-full bg-slate-900"
           />
           <figcaption className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-slate-50/60 px-5 py-3 text-xs text-slate-500">
-            <span>Global dashboard demo — live threats, stats and mitigation insights across all four regions.</span>
+            <span>Global dashboard demo: live threats, stats and mitigation insights across all four regions.</span>
             <a
               href="http://193.1.132.238/"
               target="_blank"

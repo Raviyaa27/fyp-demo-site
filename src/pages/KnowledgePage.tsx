@@ -48,12 +48,12 @@ export default function KnowledgePage() {
         kicker="Knowledge Preparation Pipeline"
         title={
           <>
-            rApp1 — from raw CTI to an <span className="grad-text">O-RAN knowledge base</span>
+            rApp1: from raw CTI to an <span className="grad-text">O-RAN knowledge base</span>
           </>
         }
         lead={
           <>
-            rApp1 is the upstream, offline/periodic pipeline — deliberately separate from real-time detection.
+            rApp1 is the upstream, offline/periodic pipeline, deliberately separate from real-time detection.
             Scheduled via a Kubernetes CronJob, it turns raw public threat intelligence into the O-RAN-focused
             knowledge that the Global RAG and regional Mini RAGs reason over.
           </>
@@ -75,7 +75,7 @@ export default function KnowledgePage() {
             <div className="card card-hover border-l-4 border-l-cyan-700 p-5">
               <h4 className="mb-2 font-bold">Runs on a schedule, not per threat</h4>
               <p className="text-sm leading-relaxed text-slate-600">
-                A Kubernetes CronJob re-runs the pipeline periodically. Live detection never waits on rApp1 — it
+                A Kubernetes CronJob re-runs the pipeline periodically. Live detection never waits on rApp1. It
                 consumes the knowledge base rApp1 has already prepared.
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
@@ -112,11 +112,11 @@ export default function KnowledgePage() {
               </div>
               <div>
                 <Endpoint>global_rag.analyze_threat</Endpoint>
-                <span className="ml-2 text-xs text-slate-500">MCP tool — full-context analysis</span>
+                <span className="ml-2 text-xs text-slate-500">MCP tool · full-context analysis</span>
               </div>
               <div>
                 <Endpoint>global_rag.report_local_intel</Endpoint>
-                <span className="ml-2 text-xs text-slate-500">MCP tool — regions report local intel</span>
+                <span className="ml-2 text-xs text-slate-500">MCP tool · regions report local intel</span>
               </div>
             </div>
           </div>

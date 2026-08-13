@@ -161,7 +161,7 @@ const EMAIL_FIELDS = [
   ['Affected interface', 'A1'],
   ['Severity', 'CRITICAL'],
   ['Confidence', '0.89'],
-  ['Mitigation report', 'RAG-generated — attached in full'],
+  ['Mitigation report', 'RAG-generated, attached in full'],
   ['Immediate actions', 'throttle source IP · validate A1 payloads'],
   ['Actionable insight', 'full report link'],
   ['Source region', 'region_1 · shared to 3 peer regions'],
@@ -263,7 +263,7 @@ export default function FuturePage() {
         }
         lead={
           <>
-            The next planned improvements for the platform — making it more domain-aware, operationally useful for
+            The next planned improvements for the platform, making it more domain-aware, operationally useful for
             vendors and operators, and closer to real-world threat detection and mitigation.
           </>
         }
@@ -302,7 +302,7 @@ export default function FuturePage() {
           <>
             Vendors, mobile network operators, cybersecurity teams and other interested parties subscribe to one or
             more regions. Whenever a threat is detected, analyzed, mitigated or shared from a subscribed region, they
-            receive an email notification — so they can act quickly instead of only watching the dashboard.
+            receive an email notification, so they can act quickly instead of only watching the dashboard.
           </>
         }
       >
@@ -357,7 +357,7 @@ export default function FuturePage() {
         <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_320px]">
           <div>
             <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-slate-500">
-              Closing the loop — what gets recorded
+              Closing the loop: what gets recorded
             </h3>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
               {FEEDBACK_METRICS.map(([title, desc], i) => (
@@ -396,7 +396,7 @@ export default function FuturePage() {
         intro={
           <>
             The RAG agents already generate mitigation analysis and recommendations. The plan is to split them into
-            two levels, so operators can respond without reading the full report first — both on the dashboard and in
+            two levels, so operators can respond without reading the full report first, both on the dashboard and in
             email notifications.
           </>
         }
@@ -434,7 +434,7 @@ export default function FuturePage() {
               ))}
             </div>
             <p className="border-t border-rose-100 px-5 py-3 text-xs leading-relaxed text-slate-500">
-              Quick actions that reduce risk right away — surfaced in a dedicated panel on the dashboard and at the
+              Quick actions that reduce risk right away, surfaced in a dedicated panel on the dashboard and at the
               top of every notification email.
             </p>
           </motion.div>
@@ -467,7 +467,7 @@ export default function FuturePage() {
               </li>
             </ul>
             <p className="border-t border-line px-5 py-3 text-xs leading-relaxed text-slate-500">
-              Kept in the full mitigation report — reviewed after the immediate risk is contained.
+              Kept in the full mitigation report, reviewed after the immediate risk is contained.
             </p>
           </motion.div>
         </div>
@@ -485,7 +485,7 @@ export default function FuturePage() {
           <>
             A decentralized application that demonstrates the complete lifecycle: it simulates or generates controlled
             network traffic for O-RAN threat scenarios, passes it through the detection pipeline, produces the
-            mitigation report and records the mitigation decision — leaving a verifiable evidence trail of detection
+            mitigation report and records the mitigation decision, leaving a verifiable evidence trail of detection
             and response that makes the full CTI lifecycle transparent and easy to demonstrate.
           </>
         }
@@ -505,7 +505,7 @@ export default function FuturePage() {
         }
         intro={
           <>
-            A controlled, authorized tool for evaluating User Equipment security — <strong>defensive testing
+            A controlled, authorized tool for evaluating User Equipment security, strictly for <strong>defensive testing
             only</strong>. It checks how UEs behave under controlled test scenarios and whether the CTI platform
             detects suspicious UE-side activity, with useful findings fed back into the mitigation pipeline.
           </>
@@ -517,7 +517,7 @@ export default function FuturePage() {
             ⚠️ Lab environment / authorized testbed only
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-700">
-            🛡️ Defensive evaluation — not offensive tooling
+            🛡️ Defensive evaluation, not offensive tooling
           </span>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

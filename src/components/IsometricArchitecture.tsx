@@ -227,7 +227,7 @@ const EDGE: Record<number, string> = { 1: '#86efac', 2: '#fcd34d', 3: '#f9a8d4',
 export default function IsometricArchitecture() {
   return (
     <div className="card overflow-x-auto p-3">
-      <svg viewBox="0 0 1440 1000" className="min-w-[1050px]" role="img" aria-label="System architecture — Non-RT RIC platform over four Near-RT RIC regions">
+      <svg viewBox="0 0 1440 1000" className="min-w-[1050px]" role="img" aria-label="System architecture: Non-RT RIC platform over four Near-RT RIC regions">
         <defs>
           <marker id="ia-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
             <path d="M0 0L10 5L0 10z" fill="#f43f5e" />

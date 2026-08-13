@@ -22,7 +22,7 @@ export default function DetectionPage() {
         }
         lead={
           <>
-            This is the end-to-end runtime path shown during the live demo — it runs identically and independently
+            This is the end-to-end runtime path shown during the live demo. It runs identically and independently
             in each of the four regions. Press play to watch a threat travel through the pipeline, and toggle
             between a strong local match and a Global RAG escalation.
           </>
@@ -35,7 +35,7 @@ export default function DetectionPage() {
         title="Mini RAG strict local decision logic"
         intro={
           <>
-            A local answer is accepted <strong>only if every one of six strict checks passes</strong> — a single
+            A local answer is accepted <strong>only if every one of six strict checks passes</strong>. A single
             failure triggers escalation to Global RAG. This keeps regional answers trustworthy while guaranteeing
             weak matches always receive full-context global analysis.
           </>

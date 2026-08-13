@@ -22,7 +22,7 @@ export default function ArchitecturePage() {
         lead={
           <>
             The platform is split into a Non-RT RIC / O-Cloud / SMO global layer and four independent Near-RT RIC
-            regional control domains. Only two paths cross a region boundary — escalation to Global RAG and peer
+            regional control domains. Only two paths cross a region boundary: escalation to Global RAG and peer
             sharing via the Inter-Platform Agent. No region ever writes directly into another region's database.
           </>
         }
@@ -30,14 +30,14 @@ export default function ArchitecturePage() {
 
       <IsometricArchitecture />
       <p className="mt-3 text-center text-xs text-slate-400">
-        Enhanced interactive rendering of the official system-architecture drawing — extended to all four Near-RT RIC regions.
+        Enhanced interactive rendering of the official system-architecture drawing, extended to all four Near-RT RIC regions.
       </p>
 
       <Block
         title="How the O-RAN network is used"
         intro={
           <>
-            The project models a multi-region O-RAN deployment — it does <strong>not</strong> treat the network as
+            The project models a multi-region O-RAN deployment. It does <strong>not</strong> treat the network as
             one flat system. CTI processing is separated per Near-RT RIC region so each RIC learns from its own
             threats, while still escalating to Global RAG and sharing intelligence with peers. Monitored O-RAN
             interfaces: <strong>A1 · E2 · F1 · O1 · Open Fronthaul</strong>.
@@ -78,8 +78,8 @@ export default function ArchitecturePage() {
                 interfaces such as <strong>A1, E2 and F1</strong>.
               </li>
               <li>
-                <FileBadge>xapp1_probe_manager_new.py</FileBadge> is the <strong>Cyber Probe Manager xApp</strong> —
-                it receives events from xApp2 and forwards them to the correct regional Mini RAG.
+                <FileBadge>xapp1_probe_manager_new.py</FileBadge> is the <strong>Cyber Probe Manager xApp</strong>.
+                It receives events from xApp2 and forwards them to the correct regional Mini RAG.
               </li>
               <li>
                 The <strong>Mini RAG agent</strong> acts as the regional intelligence / mitigation assistant for its
@@ -110,7 +110,7 @@ export default function ArchitecturePage() {
       <Block title="Platform services" className="pb-16">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <ServiceCard
-            title="rApp1 — CTI Ingestion & Pruning"
+            title="rApp1: CTI Ingestion & Pruning"
             layer="Non-RT RIC"
             color="#0e7490"
             files={['cti-rapp1/app.py', 'prune_stix.py', 'rapp1-cronjob.yaml']}
@@ -119,7 +119,7 @@ export default function ArchitecturePage() {
             it down to O-RAN-relevant intelligence and prepares the knowledge sources used by the RAG agents.
           </ServiceCard>
           <ServiceCard
-            title="Global RAG — Central Knowledge Authority"
+            title="Global RAG: Central Knowledge Authority"
             layer="Non-RT RIC"
             color="#be123c"
             endpoints={['/api/analyze', '/mcp']}
@@ -131,7 +131,7 @@ export default function ArchitecturePage() {
             <code className="font-mono text-xs">global_rag.report_local_intel</code>.
           </ServiceCard>
           <ServiceCard
-            title="Mini RAG Agents ×4 — Regional Intelligence"
+            title="Mini RAG Agents ×4: Regional Intelligence"
             layer="Near-RT RIC"
             color={REGION_COLORS.region_1}
             endpoints={['/api/v1/analyze-threat', '/api/v1/ingest-local-knowledge']}
@@ -142,7 +142,7 @@ export default function ArchitecturePage() {
             <strong>only into its own region</strong>.
           </ServiceCard>
           <ServiceCard
-            title="xApps — Threat Simulation & Probing"
+            title="xApps: Threat Simulation & Probing"
             layer="Near-RT RIC"
             color="#dc2626"
             endpoints={['/api/events']}
@@ -153,7 +153,7 @@ export default function ArchitecturePage() {
             <code className="font-mono text-xs">ThreatEvent</code> format and forwards it for analysis.
           </ServiceCard>
           <ServiceCard
-            title="rApp2 — Persistence & Notification"
+            title="rApp2: Persistence & Notification"
             layer="Non-RT RIC"
             color="#0e7490"
             endpoints={['/api/mini-rag/events', '/api/mini-rag/mitigations']}
@@ -164,7 +164,7 @@ export default function ArchitecturePage() {
             backend after each save.
           </ServiceCard>
           <ServiceCard
-            title="Dashboard — Global Monitoring UI"
+            title="Dashboard: Global Monitoring UI"
             layer="Non-RT RIC"
             color="#475569"
             endpoints={['GET /cti/threats', 'WS /ws/{region_id}']}
@@ -174,13 +174,13 @@ export default function ArchitecturePage() {
             stats and metrics history, updated live over WebSocket.
           </ServiceCard>
           <ServiceCard
-            title="Inter-Platform Agent — Threat Sharing"
+            title="Inter-Platform Agent: Threat Sharing"
             layer="Non-RT RIC"
             color="#7c3aed"
             files={['inter-platform-agent/app/main.py']}
           >
             Builds STIX/TAXII-style bundles from confirmed regional threats and delivers them to peer regions. The
-            receiving Mini RAG deduplicates by similarity before ingesting — the only sanctioned cross-region path.
+            receiving Mini RAG deduplicates by similarity before ingesting. This is the only sanctioned cross-region path.
           </ServiceCard>
         </div>
       </Block>

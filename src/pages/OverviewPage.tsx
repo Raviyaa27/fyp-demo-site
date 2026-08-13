@@ -20,14 +20,14 @@ const journey = [
 ] as const
 
 const directory: { page: PageId; title: string; desc: string; icon: string }[] = [
-  { page: 'architecture', title: 'System Architecture', desc: 'The full multi-region picture — Non-RT RIC platform, four Near-RT RICs and the RAN layer.', icon: '🏗️' },
+  { page: 'architecture', title: 'System Architecture', desc: 'The full multi-region picture: Non-RT RIC platform, four Near-RT RICs and the RAN layer.', icon: '🏗️' },
   { page: 'knowledge', title: 'CTI Knowledge Pipeline', desc: 'How rApp1 turns MITRE ATT&CK + FiGHT into a pruned O-RAN knowledge base for the RAGs.', icon: '📚' },
-  { page: 'detection', title: 'Live Threat Detection', desc: 'Interactive simulation of the demo path — from simulated threat to mitigation report.', icon: '⚡' },
-  { page: 'mcp', title: 'MCP Intelligence Sharing', desc: 'How the agents call each other as typed MCP tools over SSE — the protocol backbone of the platform.', icon: '🔌' },
+  { page: 'detection', title: 'Live Threat Detection', desc: 'Interactive simulation of the demo path, from simulated threat to mitigation report.', icon: '⚡' },
+  { page: 'mcp', title: 'MCP Intelligence Sharing', desc: 'How the agents call each other as typed MCP tools over SSE, the protocol backbone of the platform.', icon: '🔌' },
   { page: 'sharing', title: 'Inter-Platform Sharing', desc: 'STIX/TAXII-style intelligence exchange between regions, with similarity-gated ingestion.', icon: '🔁' },
   { page: 'data', title: 'Persistence & Dashboard', desc: 'Region-partitioned PostgreSQL storage and the live global monitoring UI.', icon: '📊' },
   { page: 'run', title: 'Execution Order', desc: 'Dependency-ordered startup guide for demonstrating the whole platform.', icon: '🚀' },
-  { page: 'future', title: 'Future Work', desc: 'Planned research extensions — domain-wise CTI feeds, subscriptions, immediate actions, a dApp and UE testing.', icon: '🔭' },
+  { page: 'future', title: 'Future Work', desc: 'Planned research extensions: domain-wise CTI feeds, subscriptions, immediate actions, a dApp and UE testing.', icon: '🔭' },
 ]
 
 export default function OverviewPage({ navigate }: { navigate: (p: PageId) => void }) {
@@ -96,9 +96,9 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
         intro={
           <>
             The full platform on one canvas: the Non-RT RIC / O-Cloud / SMO layer hosting the MCP Server, Global RAG
-            Agent, threat-intel rApps and global dashboard, over the regional Near-RT RICs — each with its Threat
-            Simulator, Probe Manager, Mini RAG Agent and Inter-Platform Agent — connected to their RAN layers over
-            the E2 interface.
+            Agent, threat-intel rApps and global dashboard, over the regional Near-RT RICs. Each one carries its own
+            Threat Simulator, Probe Manager, Mini RAG Agent and Inter-Platform Agent, connected to its RAN layer
+            over the E2 interface.
           </>
         }
         className="mt-10"
@@ -119,7 +119,7 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
           </div>
           <figcaption className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-slate-50/60 px-5 py-3 text-xs text-slate-500">
             <span>
-              System architecture — Non-RT RIC / SMO platform over the regional Near-RT RICs and their domain-specific
+              System architecture: Non-RT RIC / SMO platform over the regional Near-RT RICs and their domain-specific
               RANs (rural connectivity, university campus, smart city / tech park).
             </span>
             <button
@@ -138,7 +138,7 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
       {/* journey */}
       <Block
         title="The platform in six moves"
-        intro="One threat's journey through the system — each move is explored in depth on its own page."
+        intro="One threat's journey through the system. Each move is explored in depth on its own page."
         className="mt-8"
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
@@ -183,8 +183,8 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
           <div className="card card-hover border-l-4 border-l-rose-500 p-5">
             <h3 className="mb-2 font-bold">Global escalation</h3>
             <p className="text-sm leading-relaxed text-slate-600">
-              When a region's local answer fails strict quality checks, the Global RAG — the central knowledge
-              authority — provides full-context analysis, and the region learns the answer locally.
+              When a region's local answer fails strict quality checks, the Global RAG, the central knowledge
+              authority, provides full-context analysis and the region learns the answer locally.
             </p>
           </div>
           <div className="card card-hover border-l-4 border-l-violet-500 p-5">

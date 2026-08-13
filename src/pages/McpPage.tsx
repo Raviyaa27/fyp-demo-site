@@ -179,7 +179,7 @@ function McpDiagram() {
         mini_rag.check_threat_intel
       </text>
       <text x={620} y={366} fontSize={9.5} fill="#64748b">
-        concurrent dedup checks — “do you already have this?”
+        concurrent dedup checks: “do you already have this?”
       </text>
 
       {/* ─── Pipeline B: REST ingest (only where missing) ─── */}
@@ -209,7 +209,7 @@ function McpDiagram() {
 
       {([
         [45, r1, '1', 'peer check → already known · skipped'],
-        [300, r2, '2', 'source region — confirmed HIGH/CRITICAL'],
+        [300, r2, '2', 'source region · confirmed HIGH/CRITICAL'],
         [555, r3, '3', 'new intel → vector-embed + append'],
         [810, r4, '4', 'new intel → vector-embed + append'],
       ] as const).map(([x, color, n, caption]) => (
@@ -236,11 +236,11 @@ function McpDiagram() {
         <line x1={0} y1={0} x2={44} y2={0} stroke={MCP_BLUE} strokeWidth={2.2} />
         <circle cx={22} cy={0} r={3.4} fill={MCP_BLUE} />
         <text x={52} y={4} fontSize={10.5} fontWeight={600} fill="#475569">
-          MCP over SSE — typed tool call
+          MCP over SSE · typed tool call
         </text>
         <line x1={260} y1={0} x2={304} y2={0} stroke={REST_GREEN} strokeWidth={2.2} strokeDasharray="6 5" />
         <text x={312} y={4} fontSize={10.5} fontWeight={600} fill="#475569">
-          REST — ingest (write path)
+          REST · ingest (write path)
         </text>
       </g>
     </svg>
@@ -259,7 +259,7 @@ export default function McpPage() {
         }
         lead={
           <>
-            Every agent in the platform is wired together with <strong>MCP (Model Context Protocol)</strong> — the
+            Every agent in the platform is wired together with <strong>MCP (Model Context Protocol)</strong>, the
             same open standard used to connect AI agents to tools. Each agent exposes its capabilities as typed{' '}
             <strong>“tools”</strong> that other agents call over a live streaming connection, and that is exactly how
             threat intelligence flows through the system.
@@ -317,7 +317,7 @@ export default function McpPage() {
               </span>
             </div>
             <p className="mb-3 text-sm leading-relaxed text-slate-600">
-              The central knowledge authority — a large curated threat KB built from MITRE ATT&CK / FiGHT. Performs
+              The central knowledge authority, a large curated threat KB built from MITRE ATT&CK / FiGHT. It performs
               deep analysis and produces mitigations when a region escalates.
             </p>
             <div className="flex flex-wrap gap-1.5">
@@ -365,7 +365,7 @@ export default function McpPage() {
                 },
                 {
                   title: 'The region searches only its own KB',
-                  body: 'The agent first searches its own regional knowledge base — nothing else.',
+                  body: 'The agent first searches its own regional knowledge base, nothing else.',
                 },
                 {
                   title: 'High confidence → answered locally',
@@ -382,7 +382,7 @@ export default function McpPage() {
                 },
                 {
                   title: 'The region learns the answer',
-                  body: 'The Global RAG returns a structured mitigation, which the region ingests and re-vectorizes into its own KB — so each region continuously learns.',
+                  body: 'The Global RAG returns a structured mitigation, which the region ingests and re-vectorizes into its own KB, so each region continuously learns.',
                 },
               ]}
             />
@@ -418,7 +418,7 @@ export default function McpPage() {
                   body: (
                     <>
                       The IPA calls every <em>other</em> region's <Endpoint>mini_rag.check_threat_intel</Endpoint>{' '}
-                      tool over SSE — asking “do you already have this?” — all in parallel.
+                      tool over SSE, asking “do you already have this?”, all in parallel.
                     </>
                   ),
                 },
@@ -428,7 +428,7 @@ export default function McpPage() {
                 },
                 {
                   title: 'Net effect: safe automatic propagation',
-                  body: 'A threat learned in one region is automatically propagated to every other region that doesn’t yet know it — deduplicated and sanitized.',
+                  body: 'A threat learned in one region is automatically propagated to every other region that doesn’t yet know it, deduplicated and sanitized.',
                 },
               ]}
             />
@@ -441,8 +441,8 @@ export default function McpPage() {
           <div className="card card-hover border-l-4 border-l-blue-600 p-5">
             <h4 className="mb-2 font-bold">A deliberate transport split</h4>
             <p className="text-sm leading-relaxed text-slate-600">
-              The IPA uses <strong>MCP/SSE for the read</strong> — the <Endpoint>mini_rag.check_threat_intel</Endpoint>{' '}
-              dedup query — and <strong>a REST call for the write</strong> — the actual ingest. Queries stay on the
+              The IPA uses <strong>MCP/SSE for the read</strong>, the <Endpoint>mini_rag.check_threat_intel</Endpoint>{' '}
+              dedup query, and <strong>a REST call for the write</strong>, the actual ingest. Queries stay on the
               typed, streaming tool interface; state changes go through a plain, auditable REST endpoint.
             </p>
           </div>
@@ -450,7 +450,7 @@ export default function McpPage() {
             <h4 className="mb-2 font-bold">Concurrent, failure-isolated fan-out</h4>
             <p className="text-sm leading-relaxed text-slate-600">
               All peer calls run <strong>concurrently</strong> for low latency, and any single peer failing never
-              blocks the others — an unreachable region is simply skipped and logged while the rest of the platform
+              blocks the others. An unreachable region is simply skipped and logged while the rest of the platform
               keeps learning.
             </p>
           </div>

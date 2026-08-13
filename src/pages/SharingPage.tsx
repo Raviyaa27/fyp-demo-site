@@ -12,7 +12,7 @@ export default function SharingPage() {
         }
         lead={
           <>
-            Confirmed threats in one region become intelligence for the others — but only through the
+            Confirmed threats in one region become intelligence for the others, but only through the
             Inter-Platform Agent, never by writing directly into another region's database. Shared records are
             always tagged as external/shared intel, distinct from internally detected threats.
           </>
@@ -84,13 +84,13 @@ export default function SharingPage() {
                   <>
                     The IPA fans out concurrent <Endpoint>mini_rag.check_threat_intel</Endpoint> calls to every peer
                     region. Each Mini RAG compares the incoming intel against its local KB and returns{' '}
-                    <strong>YES/NO, a similarity score, reasoning and a threshold decision</strong> — e.g. YES if
+                    <strong>YES/NO, a similarity score, reasoning and a threshold decision</strong>. For example, YES if
                     similarity ≥ 75%, otherwise NO.
                   </>
                 ),
               },
               {
-                title: 'Unknown intel is ingested — into that region only',
+                title: 'Unknown intel is ingested, into that region only',
                 body: (
                   <>
                     <Endpoint>POST /api/v1/ingest-local-knowledge</Endpoint> appends the intel to the receiving
@@ -100,7 +100,7 @@ export default function SharingPage() {
               },
               {
                 title: 'rApp2 records the shared threat',
-                body: 'The external threat and its mitigation report are saved via the rApp2 Mini RAG persistence endpoints, tagged as external/shared intel — not internally detected.',
+                body: 'The external threat and its mitigation report are saved via the rApp2 Mini RAG persistence endpoints, tagged as external/shared intel, not internally detected.',
               },
               {
                 title: 'Dashboard shows it with a visible “shared” tag',
@@ -108,7 +108,7 @@ export default function SharingPage() {
               },
               {
                 title: 'Cyber Probe Manager can act on it',
-                body: 'The receiving region’s xApp1 can use the shared mitigation intelligence for local defensive action — before that threat ever hits the region.',
+                body: 'The receiving region’s xApp1 can use the shared mitigation intelligence for local defensive action, before that threat ever hits the region.',
               },
             ]}
           />
