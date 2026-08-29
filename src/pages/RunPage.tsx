@@ -48,6 +48,21 @@ export default function RunPage() {
                 body: 'Deploy the four regional agents; each loads its own data/region_N/threats.json and regional vector DB.',
               },
               {
+                title: 'Observability & detector stack',
+                badge: 'observability/kubernetes',
+                body: 'Prometheus, Alertmanager, Loki and Falco must be running before the correlator, because they are the evidence it consumes. Phoenix collects LLM traces.',
+              },
+              {
+                title: 'Security correlator',
+                badge: 'security/correlator/app.py',
+                body: 'The regional detection gateway. It needs its Mini RAG reachable, and resolves the mitigation controller if dispatch is enabled.',
+              },
+              {
+                title: 'Mitigation controller',
+                badge: 'security/mitigation-controller/app.py',
+                body: 'Holds the actuation credentials. Start it before enabling dispatch so no candidate is lost, and confirm its allow-lists for the region.',
+              },
+              {
                 title: 'Inter-Platform Agent',
                 badge: 'inter-platform-agent/app/main.py',
                 body: 'Enables cross-region STIX/TAXII-style sharing between the now-running Mini RAGs.',
@@ -58,19 +73,19 @@ export default function RunPage() {
                 body: 'Starts listening on /api/events and knows the address of its regional Mini RAG.',
               },
               {
-                title: 'xApp2 Threat Simulator (per region)',
+                title: 'xApp2 KPM detector (per region)',
                 badge: 'xapp2_threat_simulator.py',
-                body: 'Last to start, it begins generating simulated A1/E2/F1 threats, driving the whole pipeline end-to-end.',
+                body: 'Last to start. It subscribes for KPM reports and begins driving the pipeline end-to-end, alongside the bounded emulation scripts.',
               },
             ]}
           />
           <div className="space-y-4">
             <div className="card card-hover border-l-4 border-l-cyan-700 p-5">
-              <h4 className="mb-2 font-bold">rApp1 runs independently</h4>
+              <h4 className="mb-2 font-bold">Ingestion runs independently</h4>
               <p className="text-sm leading-relaxed text-slate-600">
-                The CTI ingestion/pruning pipeline is a periodic CronJob (<FileBadge>rapp1-cronjob.yaml</FileBadge>).
-                It should have run at least once before the RAG services start, so the knowledge bases are seeded,
-                but it is not part of the live startup chain.
+                The CTI ingestion pipeline (<FileBadge>pipeline/app.py</FileBadge>) is periodic. It should have run
+                at least once before the RAG services start, so the knowledge bases are seeded, but it is not part of
+                the live startup chain.
               </p>
             </div>
             <div className="card card-hover p-5">

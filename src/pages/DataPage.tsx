@@ -44,8 +44,21 @@ export default function DataPage() {
               Separate tables per region reinforce the isolation model: a region's data can be queried, purged or
               audited independently.
             </p>
+            <h4 className="mt-5 mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+              Platform-wide tables
+            </h4>
+            <div className="flex flex-col gap-1 font-mono text-[11px] text-slate-600">
+              <span>intelligence_evaluations</span>
+              <span>intelligence_snapshots</span>
+              <span>subscriptions</span>
+              <span>notification_log</span>
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-slate-500">
+              Evaluation sessions and knowledge snapshots back the intelligence-growth view; the notification log is
+              the idempotency guard that stops a threat being emailed twice.
+            </p>
             <div className="mt-3">
-              <FileBadge>fyp-cti-non-rt-ric/cti-rapp2/app.py</FileBadge>
+              <FileBadge>cti-rapp2/app.py</FileBadge>
             </div>
           </div>
           <Stepper
@@ -104,11 +117,20 @@ export default function DataPage() {
             <h3 className="mb-3 font-bold">Backend API</h3>
             <div className="flex flex-col items-start gap-2">
               <Endpoint>GET /cti/threats?region_id=region_1</Endpoint>
-              <Endpoint>GET /cti/threats/{'{id}'}/insight?region_id=region_1</Endpoint>
+              <Endpoint>GET /cti/threats/{'{id}'}/insight</Endpoint>
               <Endpoint>GET /cti/stats?region_id=region_1</Endpoint>
-              <Endpoint>GET /cti/metrics/history?region_id=region_1</Endpoint>
+              <Endpoint>GET /cti/metrics/history</Endpoint>
+              <Endpoint>GET /cti/mitigations</Endpoint>
+              <Endpoint>GET /cti/intelligence/growth</Endpoint>
+              <Endpoint>GET /cti/intelligence/evaluations</Endpoint>
+              <Endpoint>GET /inter-platform/threats/shared</Endpoint>
               <Endpoint>WS /ws/{'{region_id}'}</Endpoint>
             </div>
+            <p className="mt-3 text-xs leading-relaxed text-slate-500">
+              Internal hooks feed the live stream: <code className="font-mono text-[11px]">/internal/mini-rag/broadcast</code>,{' '}
+              <code className="font-mono text-[11px]">/internal/mitigation/lifecycle</code> and{' '}
+              <code className="font-mono text-[11px]">/internal/ipa/distribution</code>.
+            </p>
             <div className="mt-4">
               <FileBadge>dashboard-backend/dashboard_backend.py</FileBadge>
             </div>
@@ -124,6 +146,82 @@ export default function DataPage() {
               <FileBadge>cti_dashboard/src/pages/DashboardNew.tsx</FileBadge>
               <FileBadge>cti_dashboard/src/pages/ThreatsPageNew.tsx</FileBadge>
               <FileBadge>cti_dashboard/src/components/RegionSelector.tsx</FileBadge>
+            </div>
+          </div>
+        </div>
+      </Block>
+
+      <Block
+        title="Subscriptions, alerts and operator feedback"
+        intro={
+          <>
+            Vendors, operators and security teams subscribe to one or more regions. When a threat is detected,
+            analysed, mitigated or shared from a subscribed region, the notification service emails them the full
+            picture, so they can act without watching the dashboard. What they do next is recorded and fed back.
+          </>
+        }
+      >
+        <div className="grid gap-4 lg:grid-cols-[1fr_400px]">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="card overflow-hidden"
+          >
+            <div className="flex items-center gap-1.5 border-b border-line bg-slate-50 px-4 py-2.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+              <span className="ml-2 text-[11px] font-semibold text-slate-500">What the alert email carries</span>
+            </div>
+            <dl className="px-5 py-3">
+              {([
+                ['Threat summary', 'the detected finding in one line'],
+                ['Affected component', 'the O-RAN element that is exposed'],
+                ['Affected interface', 'A1 / E2 / F1 / O1'],
+                ['Severity & confidence', 'the graded assessment and its score'],
+                ['Immediate actions', 'the "take action now" tier, first in the message'],
+                ['Detailed mitigations', 'the longer-term recommendations'],
+                ['Evidence correlation', 'the rule, value and threshold behind the alert'],
+                ['Source region', 'and whether the intel arrived by sharing'],
+              ] as const).map(([k, v]) => (
+                <div key={k} className="flex items-baseline gap-3 border-b border-dashed border-line py-1.5 last:border-0">
+                  <dt className="w-[152px] shrink-0 text-[10.5px] font-bold uppercase tracking-wide text-slate-400">
+                    {k}
+                  </dt>
+                  <dd className="text-[12px] text-slate-600">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </motion.div>
+          <div className="space-y-4">
+            <div className="card card-hover border-l-4 border-l-amber-500 p-5">
+              <h4 className="mb-2 font-bold">Emailed once, never twice</h4>
+              <p className="text-sm leading-relaxed text-slate-600">
+                Delivery is gated by a notification log keyed per threat, so a re-broadcast or a restart cannot spam a
+                subscriber. If SMTP is disabled the message is still rendered and logged, which keeps the path
+                testable without sending mail.
+              </p>
+            </div>
+            <div className="card card-hover border-l-4 border-l-emerald-600 p-5">
+              <h4 className="mb-2 font-bold">Closing the loop</h4>
+              <p className="mb-3 text-sm leading-relaxed text-slate-600">
+                Operators record which recommended actions they actually applied, any extra action they took, and how
+                useful the recommendation was. That feedback is persisted with the threat and can become reviewed
+                regional knowledge, so a later comparable event is handled with stronger local context.
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                <Endpoint>POST /notifications/feedback</Endpoint>
+                <Endpoint>GET /notifications/feedback</Endpoint>
+              </div>
+            </div>
+            <div className="card card-hover p-5">
+              <h4 className="mb-2 font-bold">Files</h4>
+              <div className="flex flex-wrap gap-1.5">
+                <FileBadge>dashboard-backend/notifications.py</FileBadge>
+                <FileBadge>dashboard-backend/dashboard_backend.py</FileBadge>
+              </div>
             </div>
           </div>
         </div>

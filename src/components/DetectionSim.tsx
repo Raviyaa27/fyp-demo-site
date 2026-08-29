@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-type NodeId = 'xapp2' | 'xapp1' | 'minirag' | 'localkb' | 'globalrag' | 'rapp2' | 'dash'
+type NodeId = 'xapp2' | 'gateway' | 'minirag' | 'localkb' | 'globalrag' | 'rapp2' | 'dash'
 type Scenario = 'local' | 'escalate'
 
 type SimStep = {
@@ -15,26 +15,26 @@ type SimStep = {
 const COMMON: SimStep[] = [
   {
     nodes: ['xapp2'],
-    msg: 'Threat simulated',
-    detail: 'xApp2 generates a simulated O-RAN threat, for example an A1 malformed policy, F1 unauthorized access or E2 flooding.',
+    msg: 'Evidence observed',
+    detail: 'A detector fires: an E2SM-KPM anomaly, a Falco runtime rule, a Loki log pattern or a Prometheus alert such as OranControlFailure.',
     tone: 'warn',
   },
   {
-    nodes: ['xapp2', 'xapp1'],
-    links: ['xapp2-xapp1'],
-    msg: 'POST /api/events',
-    detail: 'The raw event is posted to xApp1, the Cyber Probe Manager.',
+    nodes: ['xapp2', 'gateway'],
+    links: ['xapp2-gateway'],
+    msg: 'Ingested by the gateway',
+    detail: 'Alertmanager, Falco and detector webhooks post the raw signal to the regional security correlator.',
     tone: 'info',
   },
   {
-    nodes: ['xapp1'],
-    msg: 'Normalized to ThreatEvent',
-    detail: 'xApp1 converts the payload: threat_id, region_id, source, target_component, interface, description, indicators, metrics, timestamp.',
+    nodes: ['gateway'],
+    msg: 'Normalised, deduplicated, correlated',
+    detail: 'The correlator maps the signal to one schema, drops repeats by fingerprint, correlates it against a 300 s window and computes a correlation score from severity and source weight.',
     tone: 'info',
   },
   {
-    nodes: ['xapp1', 'minirag'],
-    links: ['xapp1-minirag'],
+    nodes: ['gateway', 'minirag'],
+    links: ['gateway-minirag'],
     msg: 'POST /api/v1/analyze-threat',
     detail: 'The ThreatEvent is forwarded to this region’s Mini RAG agent.',
     tone: 'info',
@@ -55,7 +55,7 @@ const STEPS: Record<Scenario, SimStep[]> = {
       nodes: ['localkb', 'minirag'],
       links: ['minirag-localkb'],
       msg: 'Strong local match ✓',
-      detail: 'All six strict checks pass (similarity > STRICT_LOCAL_THRESHOLD, component, interface, mitigation, confidence, fields). Local mitigation returned.',
+      detail: 'All six strict checks pass: similarity above the routing threshold, plus component, interface, mitigation, confidence and required fields. A local mitigation is returned.',
       tone: 'ok',
     },
     {
@@ -84,7 +84,7 @@ const STEPS: Record<Scenario, SimStep[]> = {
     {
       nodes: ['localkb'],
       msg: 'Weak local match ✗',
-      detail: 'A strict check fails, for example similarity below STRICT_LOCAL_THRESHOLD or no useful mitigation. The local answer is rejected.',
+      detail: 'A strict check fails, for example similarity below the routing threshold or no useful mitigation. The local answer is rejected.',
       tone: 'warn',
     },
     {
@@ -125,8 +125,8 @@ const STEPS: Record<Scenario, SimStep[]> = {
 }
 
 const NODE_META: Record<NodeId, { label: string; sub: string }> = {
-  xapp2: { label: 'xApp2', sub: 'Threat Simulator' },
-  xapp1: { label: 'xApp1', sub: 'Cyber Probe Mgr' },
+  xapp2: { label: 'Evidence', sub: 'KPM · Falco · Loki' },
+  gateway: { label: 'Gateway', sub: 'Security correlator' },
   minirag: { label: 'Mini RAG', sub: 'Regional agent' },
   localkb: { label: 'Regional KB', sub: 'Vector DB' },
   globalrag: { label: 'Global RAG', sub: 'Full knowledge' },
@@ -295,9 +295,9 @@ export default function DetectionSim() {
       <div className="overflow-x-auto px-5 py-7">
         <div className="flex min-w-[820px] items-center justify-center">
           <SimNode id="xapp2" active={isActive('xapp2')} done={visited.has('xapp2')} />
-          <Arrow active={linkOn('xapp2-xapp1')} />
-          <SimNode id="xapp1" active={isActive('xapp1')} done={visited.has('xapp1')} />
-          <Arrow active={linkOn('xapp1-minirag')} />
+          <Arrow active={linkOn('xapp2-gateway')} />
+          <SimNode id="gateway" active={isActive('gateway')} done={visited.has('gateway')} />
+          <Arrow active={linkOn('gateway-minirag')} />
           <SimNode id="minirag" active={isActive('minirag')} done={visited.has('minirag')} />
           <Arrow active={linkOn('minirag-localkb') || linkOn('minirag-globalrag')} warn={linkOn('minirag-globalrag')} />
           <div className="flex shrink-0 flex-col items-center">

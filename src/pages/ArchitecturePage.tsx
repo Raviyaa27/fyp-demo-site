@@ -79,11 +79,15 @@ export default function ArchitecturePage() {
               </li>
               <li>
                 <FileBadge>xapp1_probe_manager_new.py</FileBadge> is the <strong>Cyber Probe Manager xApp</strong>.
-                It receives events from xApp2 and forwards them to the correct regional Mini RAG.
+                It handles probe events and carries out the guarded E2SM-RC control action when instructed.
               </li>
               <li>
-                The <strong>Mini RAG agent</strong> acts as the regional intelligence / mitigation assistant for its
-                Near-RT RIC, and consumes shared intel so the Cyber Probe Manager can act defensively.
+                The <strong>security correlator</strong> is the regional detection gateway. It unifies Prometheus,
+                Loki, Falco and E2SM-KPM evidence into one schema before any analysis happens.
+              </li>
+              <li>
+                The <strong>Mini RAG agent</strong> is the regional intelligence assistant, and the{' '}
+                <strong>mitigation controller</strong> is the only component holding actuation credentials.
               </li>
             </ul>
           </div>
@@ -91,7 +95,7 @@ export default function ArchitecturePage() {
             <h3 className="mb-3 font-bold">Non-RT RIC / SMO side (global)</h3>
             <ul className="space-y-3 text-sm leading-relaxed text-slate-600">
               <li>
-                Hosts the rApps: <strong>rApp1</strong> (prepares CTI knowledge), <strong>rApp2</strong> (stores
+                Hosts the <strong>CTI ingestion pipeline</strong> (prepares the knowledge base), <strong>rApp2</strong> (stores
                 threats and mitigation reports), <strong>Global RAG</strong>, the{' '}
                 <strong>Inter-Platform Agent</strong> and the <strong>Dashboard Backend</strong>.
               </li>
@@ -110,13 +114,13 @@ export default function ArchitecturePage() {
       <Block title="Platform services" className="pb-16">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <ServiceCard
-            title="rApp1: CTI Ingestion & Pruning"
+            title="CTI Ingestion Pipeline"
             layer="Non-RT RIC"
             color="#0e7490"
-            files={['cti-rapp1/app.py', 'prune_stix.py', 'rapp1-cronjob.yaml']}
+            files={['pipeline/app.py', 'pipeline/prune_stix.py', 'pipeline/graph_builder.py']}
           >
-            Periodic pipeline that fetches MITRE ATT&CK and FiGHT/O-RAN security data, converts it to STIX, prunes
-            it down to O-RAN-relevant intelligence and prepares the knowledge sources used by the RAG agents.
+            Periodic pipeline that harvests MITRE ATT&CK, FiGHT, CVSS and CISA KEV, normalises them to STIX 2.1,
+            prunes to O-RAN-relevant intelligence, builds the ArangoDB graph and serves it over TAXII 2.1.
           </ServiceCard>
           <ServiceCard
             title="Global RAG: Central Knowledge Authority"
@@ -148,9 +152,28 @@ export default function ArchitecturePage() {
             endpoints={['/api/events']}
             files={['xapp2_threat_simulator.py', 'xapp1_probe_manager_new.py']}
           >
-            xApp2 simulates O-RAN threats (A1 malformed policy, F1 unauthorized access, E2 flooding). xApp1, the
-            Cyber Probe Manager, normalizes each event into the Mini RAG{' '}
-            <code className="font-mono text-xs">ThreatEvent</code> format and forwards it for analysis.
+            xApp2 is the KPM detector that reports RAN telemetry anomalies. xApp1, the Cyber Probe Manager, handles
+            probe events and executes the guarded E2SM-RC control action on behalf of the mitigation controller.
+          </ServiceCard>
+          <ServiceCard
+            title="Security Correlator: Detection Gateway"
+            layer="Near-RT RIC"
+            color="#2563eb"
+            endpoints={['POST /events', 'GET /metrics']}
+            files={['security/correlator/app.py', 'security/kubernetes/detection-rules.yaml']}
+          >
+            Normalises Prometheus, Loki, Falco and E2SM-KPM evidence into one transparent schema, deduplicates by
+            fingerprint, correlates over a 300 s window and forwards the scored event to the regional Mini RAG.
+          </ServiceCard>
+          <ServiceCard
+            title="Mitigation Controller: Guarded Response"
+            layer="Near-RT RIC"
+            color="#7c3aed"
+            endpoints={['POST /api/v1/mitigations', 'GET /api/v1/mitigations']}
+            files={['security/mitigation-controller/app.py']}
+          >
+            Holds the actuation credentials and drives each candidate through approve, execute, verify and roll back
+            across five actuators, behind deterministic safety gates. A1 actions always stay operator-approved.
           </ServiceCard>
           <ServiceCard
             title="rApp2: Persistence & Notification"

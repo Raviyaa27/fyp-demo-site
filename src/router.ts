@@ -5,9 +5,11 @@ export type PageId =
   | 'architecture'
   | 'knowledge'
   | 'detection'
+  | 'mitigation'
   | 'mcp'
   | 'sharing'
   | 'data'
+  | 'evaluation'
   | 'run'
   | 'future'
 
@@ -15,11 +17,13 @@ export const PAGES: { id: PageId; label: string; title: string }[] = [
   { id: 'overview', label: 'Overview', title: 'Project Overview' },
   { id: 'architecture', label: 'Architecture', title: 'System Architecture' },
   { id: 'knowledge', label: 'Knowledge', title: 'CTI Knowledge Pipeline' },
-  { id: 'detection', label: 'Detection', title: 'Live Threat Detection' },
+  { id: 'detection', label: 'Detection', title: 'Anomaly Detection Gateway' },
+  { id: 'mitigation', label: 'Mitigation', title: 'Guarded Automated Mitigation' },
   { id: 'mcp', label: 'MCP', title: 'MCP Intelligence Sharing' },
   { id: 'sharing', label: 'Sharing', title: 'Inter-Platform Threat Sharing' },
-  { id: 'data', label: 'Dashboard', title: 'Persistence & Dashboard' },
-  { id: 'run', label: 'Run Guide', title: 'Execution Order' },
+  { id: 'data', label: 'Dashboard', title: 'Persistence, Dashboard & Alerts' },
+  { id: 'evaluation', label: 'Evaluation', title: 'Evaluation & Observability' },
+  { id: 'run', label: 'Run', title: 'Execution Order' },
   { id: 'future', label: 'Future', title: 'Future Work & Research Extensions' },
 ]
 

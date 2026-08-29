@@ -253,7 +253,7 @@ export default function IsometricArchitecture() {
         <Icon x={470} y={168} kind="server" label="MCP Server" color="#334155" />
         <Icon x={610} y={168} kind="db" label="Threat Intel" sub="database rApp2" color="#0e7490" />
         <Icon x={755} y={166} kind="chip" label="Global RAG Agent" color="#be123c" />
-        <Icon x={905} y={168} kind="funnel" label="Threat Data" sub="Ingestion rApp1" color="#2563eb" />
+        <Icon x={905} y={168} kind="funnel" label="Threat Data" sub="Ingestion pipeline" color="#2563eb" />
         <Icon x={1035} y={166} kind="bell" label="Vendor Notification" sub="rApp" />
 
         {/* Global dashboard */}

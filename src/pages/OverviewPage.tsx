@@ -6,28 +6,30 @@ import archImg from '../assets/overview-image-new.jpeg'
 const stats = [
   ['4', 'Near-RT RIC regions', 'ric-1 … ric-4, fully isolated'],
   ['4 + 1', 'RAG agents', 'four regional Mini RAGs + one Global RAG'],
-  ['2', 'rApps', 'rApp1 CTI prep · rApp2 persistence'],
-  ['8', 'PostgreSQL tables', 'events + mitigations per region'],
+  ['5', 'Mitigation actuators', 'RC · UE access · quarantine · credential · A1'],
+  ['750', 'Emulated events', 'eight threat families over five days'],
 ]
 
 const journey = [
-  ['Simulate', 'xApp2 injects O-RAN threats (A1 / E2 / F1)', '#dc2626'],
-  ['Detect', 'xApp1 Cyber Probe Manager normalizes events', '#ea580c'],
+  ['Observe', 'Prometheus, Loki, Falco and E2SM-KPM detectors fire', '#dc2626'],
+  ['Correlate', 'the gateway normalises, deduplicates and scores', '#ea580c'],
   ['Analyze', 'Mini RAG answers locally or escalates to Global RAG', '#2563eb'],
-  ['Persist', 'rApp2 stores events + mitigation reports per region', '#0e7490'],
-  ['Monitor', 'Global dashboard updates live over WebSocket', '#16a34a'],
-  ['Share', 'Inter-Platform Agent spreads intel to peer regions', '#7c3aed'],
+  ['Mitigate', 'the guarded controller executes, verifies, rolls back', '#7c3aed'],
+  ['Persist', 'rApp2 stores events and reports per region', '#0e7490'],
+  ['Share', 'Inter-Platform Agent spreads intel to peer regions', '#16a34a'],
 ] as const
 
 const directory: { page: PageId; title: string; desc: string; icon: string }[] = [
   { page: 'architecture', title: 'System Architecture', desc: 'The full multi-region picture: Non-RT RIC platform, four Near-RT RICs and the RAN layer.', icon: '🏗️' },
-  { page: 'knowledge', title: 'CTI Knowledge Pipeline', desc: 'How rApp1 turns MITRE ATT&CK + FiGHT into a pruned O-RAN knowledge base for the RAGs.', icon: '📚' },
-  { page: 'detection', title: 'Live Threat Detection', desc: 'Interactive simulation of the demo path, from simulated threat to mitigation report.', icon: '⚡' },
+  { page: 'knowledge', title: 'CTI Knowledge Pipeline', desc: 'How MITRE ATT&CK, FiGHT and CISA KEV become a pruned, O-RAN-specific knowledge base.', icon: '📚' },
+  { page: 'detection', title: 'Anomaly Detection Gateway', desc: 'Four evidence sources normalised into one transparent schema, plus the live pipeline simulation.', icon: '⚡' },
+  { page: 'mitigation', title: 'Guarded Mitigation', desc: 'Five actuators behind deterministic safety gates, with verification and automatic rollback.', icon: '🛡️' },
   { page: 'mcp', title: 'MCP Intelligence Sharing', desc: 'How the agents call each other as typed MCP tools over SSE, the protocol backbone of the platform.', icon: '🔌' },
   { page: 'sharing', title: 'Inter-Platform Sharing', desc: 'STIX/TAXII-style intelligence exchange between regions, with similarity-gated ingestion.', icon: '🔁' },
   { page: 'data', title: 'Persistence & Dashboard', desc: 'Region-partitioned PostgreSQL storage and the live global monitoring UI.', icon: '📊' },
+  { page: 'evaluation', title: 'Evaluation & Observability', desc: 'The frozen benchmark, the 54/36/10 score, the OpenCTI comparison and the observability stack.', icon: '📈' },
   { page: 'run', title: 'Execution Order', desc: 'Dependency-ordered startup guide for demonstrating the whole platform.', icon: '🚀' },
-  { page: 'future', title: 'Future Work', desc: 'Planned research extensions: domain-wise CTI feeds, subscriptions, immediate actions, a dApp and UE testing.', icon: '🔭' },
+  { page: 'future', title: 'Future Work', desc: 'What remains ahead: an end-to-end dApp and a controlled UE penetration-testing tool.', icon: '🔭' },
 ]
 
 export default function OverviewPage({ navigate }: { navigate: (p: PageId) => void }) {
@@ -41,10 +43,11 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
             Multi-Region O-RAN <span className="grad-text">Cyber Threat Intelligence</span> Platform
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg">
-            Simulated O-RAN threats are detected by Near-RT RIC xApps, analyzed by regional <strong>Mini RAG</strong>{' '}
-            agents, escalated to a central <strong>Global RAG</strong> when local confidence is low, persisted by{' '}
-            <strong>rApp2</strong> into PostgreSQL, streamed live to a <strong>global dashboard</strong>, and shared
-            across regions through a TAXII-style <strong>Inter-Platform Agent</strong>.
+            O-RAN threats are caught by a regional <strong>detection gateway</strong> that unifies Prometheus, Loki,
+            Falco and E2SM-KPM evidence, analysed by regional <strong>Mini RAG</strong> agents that escalate to a
+            central <strong>Global RAG</strong> only when local evidence is weak, answered by a{' '}
+            <strong>guarded mitigation controller</strong> that verifies its own effect, and shared across regions
+            through the <strong>Inter-Platform Agent</strong>.
           </p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
             <RegionChip region={1} />
