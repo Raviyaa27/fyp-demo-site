@@ -45,8 +45,8 @@ const steps = [
 const DOMAINS = [
   { n: 1, name: 'Rural connectivity', built: 'health', status: 'built' },
   { n: 2, name: 'University campus', built: 'education', status: 'built' },
-  { n: 3, name: 'Smart city / tech park', built: '', status: 'planned' },
-  { n: 4, name: 'Industrial / critical infrastructure', built: '', status: 'planned' },
+  { n: 3, name: 'Smart city / tech park', built: '', status: 'queued' },
+  { n: 4, name: 'Industrial / critical infrastructure', built: '', status: 'queued' },
 ] as const
 
 export default function KnowledgePage() {
@@ -106,9 +106,10 @@ export default function KnowledgePage() {
         title="Domain-specific regional feeds"
         intro={
           <>
-            Every region keeps a separate knowledge base, but they need not learn the same things. Vendor connectors
-            build domain-tailored STIX feeds from the CISA KEV catalogue so each Mini RAG becomes specialised in the
-            threats its own environment actually faces. Two domains are live today, with the remaining two planned.
+            <strong>All four regions are deployed and run the same stack</strong>, each with its own Mini RAG and its
+            own knowledge base. What differs is the feed: vendor connectors build domain-tailored STIX from the CISA
+            KEV catalogue so a region becomes specialised in the threats its own environment faces. Two domain feeds
+            are wired up today; the remaining two are queued behind the same connector interface.
           </>
         }
       >
@@ -127,16 +128,20 @@ export default function KnowledgePage() {
                       live ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'
                     }`}
                   >
-                    {live ? 'Live' : 'Planned'}
+                    {live ? 'Feed live' : 'Feed queued'}
                   </span>
                 </div>
                 <div className="font-bold leading-tight">{d.name}</div>
-                {live && (
-                  <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
-                    Deployed as the{' '}
-                    <code className="font-mono text-[11px]">{d.built}</code> vendor domain, sourced from CISA KEV.
-                  </p>
-                )}
+                <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
+                  {live ? (
+                    <>
+                      Region deployed · domain feed wired as the{' '}
+                      <code className="font-mono text-[11px]">{d.built}</code> vendor domain, sourced from CISA KEV.
+                    </>
+                  ) : (
+                    <>Region deployed and operational · its domain-specific feed is not wired up yet.</>
+                  )}
+                </p>
               </div>
             )
           })}

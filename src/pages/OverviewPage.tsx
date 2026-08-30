@@ -27,8 +27,7 @@ const directory: { page: PageId; title: string; desc: string; icon: string }[] =
   { page: 'mcp', title: 'MCP Intelligence Sharing', desc: 'How the agents call each other as typed MCP tools over SSE, the protocol backbone of the platform.', icon: '🔌' },
   { page: 'sharing', title: 'Inter-Platform Sharing', desc: 'STIX/TAXII-style intelligence exchange between regions, with similarity-gated ingestion.', icon: '🔁' },
   { page: 'data', title: 'Persistence & Dashboard', desc: 'Region-partitioned PostgreSQL storage and the live global monitoring UI.', icon: '📊' },
-  { page: 'evaluation', title: 'Evaluation & Observability', desc: 'The frozen benchmark, the 54/36/10 score, the OpenCTI comparison and the observability stack.', icon: '📈' },
-  { page: 'run', title: 'Execution Order', desc: 'Dependency-ordered startup guide for demonstrating the whole platform.', icon: '🚀' },
+  { page: 'results', title: 'Results & Evaluation', desc: 'Every measured result: intelligence growth, detection, mitigation, sharing, notifications and the OpenCTI comparison.', icon: '📈' },
   { page: 'future', title: 'Future Work', desc: 'What remains ahead: an end-to-end dApp and a controlled UE penetration-testing tool.', icon: '🔭' },
 ]
 

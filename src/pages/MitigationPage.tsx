@@ -65,36 +65,51 @@ const GATES = [
   ['Experiment binding', 'Every candidate carries an experiment id and a simulation flag, so test actions stay auditable.'],
 ] as const
 
+const CYCLE = 6 // seconds for one full pass through the lifecycle
+
 function Lifecycle() {
+  const step = CYCLE / STATES.length
   return (
     <svg viewBox="0 0 1040 250" className="min-w-[900px]" role="img" aria-label="Mitigation lifecycle state machine">
       <defs>
-        <marker id="mit-a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <marker id="mit-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
           <path d="M0 0L10 5L0 10z" fill="#94a3b8" />
         </marker>
       </defs>
       {STATES.map((s, i) => {
-        const x = 18 + i * 170
+        const x = 24 + i * 170
         const last = i === STATES.length - 1
+        const begin = `${(i * step).toFixed(2)}s`
         return (
           <g key={s}>
             <rect
-              x={x} y={40} width={150} height={54} rx={12}
+              x={x} y={40} width={142} height={54} rx={12}
               fill={last ? '#16a34a' : '#ffffff'}
               stroke={last ? '#16a34a' : '#cbd5e1'}
               strokeWidth={1.6}
-            />
-            <text x={x + 75} y={73} textAnchor="middle" fontSize={13} fontFamily="monospace" fontWeight={700}
+            >
+              {!last && (
+                <>
+                  <animate attributeName="fill" values="#ffffff;#dbeafe;#dbeafe;#ffffff;#ffffff"
+                           keyTimes="0;0.06;0.18;0.30;1" dur={`${CYCLE}s`} begin={begin} repeatCount="indefinite" />
+                  <animate attributeName="stroke" values="#cbd5e1;#2563eb;#2563eb;#cbd5e1;#cbd5e1"
+                           keyTimes="0;0.06;0.18;0.30;1" dur={`${CYCLE}s`} begin={begin} repeatCount="indefinite" />
+                  <animate attributeName="stroke-width" values="1.6;2.8;2.8;1.6;1.6"
+                           keyTimes="0;0.06;0.18;0.30;1" dur={`${CYCLE}s`} begin={begin} repeatCount="indefinite" />
+                </>
+              )}
+              {last && (
+                <animate attributeName="stroke-width" values="1.6;4.5;4.5;1.6;1.6"
+                         keyTimes="0;0.06;0.18;0.30;1" dur={`${CYCLE}s`} begin={begin} repeatCount="indefinite" />
+              )}
+            </rect>
+            <text x={x + 71} y={73} textAnchor="middle" fontSize={13} fontFamily="monospace" fontWeight={700}
                   fill={last ? '#ffffff' : '#0f172a'}>
               {s}
             </text>
-            {i < STATES.length - 1 && (
-              <>
-                <path d={`M ${x + 152} 67 H ${x + 168}`} stroke="#94a3b8" strokeWidth={2} fill="none" markerEnd="url(#mit-a)" />
-                <circle r={3} fill="#2563eb">
-                  <animateMotion dur="1.6s" begin={`${i * 0.25}s`} repeatCount="indefinite" path={`M ${x + 152} 67 H ${x + 166}`} />
-                </circle>
-              </>
+            {!last && (
+              <path d={`M ${x + 146} 67 H ${x + 168}`} stroke="#94a3b8" strokeWidth={1.8} fill="none"
+                    markerEnd="url(#mit-a)" />
             )}
           </g>
         )

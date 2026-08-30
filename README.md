@@ -17,8 +17,7 @@ Hash-routed multi-page walkthrough (works on GitHub Pages without a server):
 - **MCP** · the Model Context Protocol backbone: three FastMCP servers and their typed tools, plus the two pipelines (vertical escalation, horizontal distribution) with an animated diagram
 - **Sharing** · inter-platform STIX/TAXII-style threat sharing with similarity-gated ingestion
 - **Dashboard** · rApp2 region-partitioned persistence, subscriptions and operator feedback, the live monitoring UI, demo video and deployment link
-- **Evaluation** · the frozen benchmark, the 54/36/10 composite score, the 750-event campaign, the OpenCTI comparison and the observability stack
-- **Run Guide** · dependency-ordered startup sequence
+- **Results** · every measured result: intelligence growth, detection, mitigation, inter-platform sharing, notifications, the OpenCTI comparison and the observability stack
 - **Future** · what remains: an end-to-end dApp and a controlled UE penetration-testing tool
 
 ## Develop

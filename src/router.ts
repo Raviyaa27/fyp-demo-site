@@ -9,8 +9,7 @@ export type PageId =
   | 'mcp'
   | 'sharing'
   | 'data'
-  | 'evaluation'
-  | 'run'
+  | 'results'
   | 'future'
 
 export const PAGES: { id: PageId; label: string; title: string }[] = [
@@ -22,8 +21,7 @@ export const PAGES: { id: PageId; label: string; title: string }[] = [
   { id: 'mcp', label: 'MCP', title: 'MCP Intelligence Sharing' },
   { id: 'sharing', label: 'Sharing', title: 'Inter-Platform Threat Sharing' },
   { id: 'data', label: 'Dashboard', title: 'Persistence, Dashboard & Alerts' },
-  { id: 'evaluation', label: 'Evaluation', title: 'Evaluation & Observability' },
-  { id: 'run', label: 'Run', title: 'Execution Order' },
+  { id: 'results', label: 'Results', title: 'Results & Evaluation' },
   { id: 'future', label: 'Future', title: 'Future Work & Research Extensions' },
 ]
 
