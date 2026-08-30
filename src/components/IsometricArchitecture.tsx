@@ -18,9 +18,27 @@ type Glyph =
   | 'radar'
   | 'client'
   | 'node'
+  | 'shield'
+  | 'stack'
 
 function GlyphShape({ kind, color }: { kind: Glyph; color: string }) {
   switch (kind) {
+    case 'shield':
+      return (
+        <g>
+          <path d="M0 -16 L13 -10.5 V2 C13 9.5 6 14.5 0 16.5 C-6 14.5 -13 9.5 -13 2 V-10.5 Z" fill={color} />
+          <path d="M-5 0.5 L-1.5 4.5 L6 -4.5" fill="none" stroke="#ffffff" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+      )
+    case 'stack':
+      return (
+        <g>
+          <rect x={-14} y={5} width={28} height={8} rx={2} fill="#1d4ed8" />
+          <rect x={-11} y={-4} width={22} height={8} rx={2} fill="#3b82f6" />
+          <rect x={-8} y={-13} width={16} height={8} rx={2} fill="#93c5fd" />
+          <circle cx={11} cy={-10} r={3.4} fill="#f59e0b" />
+        </g>
+      )
     case 'server':
       return (
         <g>
@@ -227,7 +245,7 @@ const EDGE: Record<number, string> = { 1: '#86efac', 2: '#fcd34d', 3: '#f9a8d4',
 export default function IsometricArchitecture() {
   return (
     <div className="card overflow-x-auto p-3">
-      <svg viewBox="0 0 1440 1000" className="min-w-[1050px]" role="img" aria-label="System architecture: Non-RT RIC platform over four Near-RT RIC regions">
+      <svg viewBox="0 0 1440 1180" className="min-w-[1050px]" role="img" aria-label="System architecture: Non-RT RIC platform over four Near-RT RIC regions">
         <defs>
           <marker id="ia-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
             <path d="M0 0L10 5L0 10z" fill="#f43f5e" />
@@ -237,6 +255,15 @@ export default function IsometricArchitecture() {
           </marker>
           <marker id="ia-slate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M0 0L10 5L0 10z" fill="#64748b" />
+          </marker>
+          <marker id="ia-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#f59e0b" />
+          </marker>
+          <marker id="ia-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#2563eb" />
+          </marker>
+          <marker id="ia-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0L10 5L0 10z" fill="#0d9488" />
           </marker>
           <linearGradient id="ia-plat" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#dbeafe" />
@@ -295,26 +322,50 @@ export default function IsometricArchitecture() {
           return (
             <g key={n}>
               {/* RIC slab */}
-              <Slab x={x} y={y} w={330} h={132} skew={58} fill={SURFACE[n]} edge={EDGE[n]} stroke={color} />
-              <text x={x + 12} y={y + 127} fontSize={11.5} fontWeight={800} fill={color}>
+              <Slab x={x} y={y} w={330} h={214} skew={58} fill={SURFACE[n]} edge={EDGE[n]} stroke={color} />
+              <text x={x + 10} y={y + 208} fontSize={11.5} fontWeight={800} fill={color}>
                 Near-RT RIC {n}
               </text>
 
               <Icon x={x + 105} y={y + 32} kind="bug" label="Threat Simulator" sub="xApp2" labelColor="#334155" />
               <Icon x={x + 295} y={y + 32} kind="radar" label="Probe Manager" sub="xApp1" labelColor="#334155" />
-              <line x1={x + 128} y1={y + 32} x2={x + 268} y2={y + 32} stroke="#dc2626" strokeWidth={1.6} strokeDasharray="5 4" markerEnd="url(#ia-slate)">
-                <animate attributeName="stroke-dashoffset" from="18" to="0" dur="1s" repeatCount="indefinite" />
-              </line>
-              <text x={x + 198} y={y + 25} textAnchor="middle" fontSize={8.5} fill="#dc2626" fontWeight={600}>
-                simulate threats
-              </text>
+
+              {/* detection: observability stack feeds the security correlator */}
+              <Icon x={x + 105} y={y + 152} kind="shield" label="Security Correlator" color="#2563eb" labelColor="#334155" />
+              <Icon x={x + 262} y={y + 152} kind="stack" label="Observability stack" labelColor="#334155" />
+
+              {/* xApp2 evidence straight down into the correlator */}
+              <line x1={x + 105} y1={y + 82} x2={x + 105} y2={y + 132} stroke="#475569" strokeWidth={1.6} markerEnd="url(#ia-slate)" />
+              <MovingDot path={`M ${x + 105} ${y + 82} V ${y + 130}`} color="#334155" dur={2.4} r={3} />
+
+              {/* observability stack into the correlator */}
+              <line x1={x + 240} y1={y + 150} x2={x + 128} y2={y + 150} stroke="#f59e0b" strokeWidth={1.8} markerEnd="url(#ia-amber)" />
+              <MovingDot path={`M ${x + 240} ${y + 150} H ${x + 130}`} color="#f59e0b" dur={2.2} delay={0.3} r={3} />
+
+              {/* correlator hands the normalised event to the Mini RAG agent */}
+              <path
+                d={`M ${x + 120} ${y + 140} C ${x + 168} ${y + 142}, ${x + 198} ${y + 124}, ${x + 206} ${y + 100}`}
+                fill="none" stroke="#2563eb" strokeWidth={1.9} markerEnd="url(#ia-blue)"
+              />
+              <MovingDot
+                path={`M ${x + 120} ${y + 140} C ${x + 168} ${y + 142}, ${x + 198} ${y + 124}, ${x + 206} ${y + 100}`}
+                color="#2563eb" dur={2.2} delay={0.7} r={3}
+              />
+
+              {/* guarded mitigation dispatched to xApp1 */}
+              <path
+                d={`M ${x + 234} ${y + 76} C ${x + 252} ${y + 46}, ${x + 268} ${y + 36}, ${x + 280} ${y + 34}`}
+                fill="none" stroke="#0d9488" strokeWidth={1.8} strokeDasharray="5 4" markerEnd="url(#ia-teal)"
+              >
+                <animate attributeName="stroke-dashoffset" from="18" to="0" dur="1.1s" repeatCount="indefinite" />
+              </path>
 
               <Icon x={x + 142} y={y + 92} kind="client" label="MCP Client" labelColor="#334155" />
               <Icon x={x + 218} y={y + 90} kind="bot" label="Mini RAG Agent" sub="Local RAG" color={color} labelColor="#334155" />
               <Icon x={x + 318} y={y + 88} kind="bot" label="Inter-Platform" sub="Agent" color="#8b5cf6" labelColor="#334155" />
 
               {/* E2 down to RAN */}
-              <g transform={`translate(${x + 150},${y + 152})`}>
+              <g transform={`translate(${x + 150},${y + 234})`}>
                 <line x1={0} y1={0} x2={0} y2={34} stroke={color} strokeWidth={3} opacity={0.8} markerEnd="url(#ia-slate)" markerStart="url(#ia-slate)" />
                 <text x={8} y={22} fontSize={9.5} fontWeight={700} fill={color}>
                   E2 Interface
@@ -322,15 +373,15 @@ export default function IsometricArchitecture() {
               </g>
 
               {/* RAN slab */}
-              <Slab x={x + 30} y={y + 190} w={280} h={92} skew={44} fill="white" edge="#e2e8f0" stroke={color} />
-              <Icon x={x + 95} y={y + 218} kind="node" label="O-CU" labelColor="#334155" />
-              <Icon x={x + 300} y={y + 218} kind="node" label="O-RU" labelColor="#334155" />
-              <Icon x={x + 195} y={y + 246} kind="node" label="O-DU" labelColor="#334155" />
-              <line x1={x + 118} y1={y + 216} x2={x + 272} y2={y + 216} stroke="#dc2626" strokeWidth={1.4} markerEnd="url(#ia-slate)" />
-              <line x1={x + 278} y1={y + 232} x2={x + 222} y2={y + 244} stroke="#2563eb" strokeWidth={1.4} markerEnd="url(#ia-slate)" />
-              <line x1={x + 170} y1={y + 244} x2={x + 116} y2={y + 230} stroke="#16a34a" strokeWidth={1.4} markerEnd="url(#ia-slate)" />
+              <Slab x={x + 30} y={y + 272} w={280} h={92} skew={44} fill="white" edge="#e2e8f0" stroke={color} />
+              <Icon x={x + 95} y={y + 300} kind="node" label="O-CU" labelColor="#334155" />
+              <Icon x={x + 300} y={y + 300} kind="node" label="O-RU" labelColor="#334155" />
+              <Icon x={x + 195} y={y + 328} kind="node" label="O-DU" labelColor="#334155" />
+              <line x1={x + 118} y1={y + 298} x2={x + 272} y2={y + 298} stroke="#dc2626" strokeWidth={1.4} markerEnd="url(#ia-slate)" />
+              <line x1={x + 278} y1={y + 314} x2={x + 222} y2={y + 326} stroke="#2563eb" strokeWidth={1.4} markerEnd="url(#ia-slate)" />
+              <line x1={x + 170} y1={y + 326} x2={x + 116} y2={y + 312} stroke="#16a34a" strokeWidth={1.4} markerEnd="url(#ia-slate)" />
               {/* cyber probe mast */}
-              <g transform={`translate(${x + 52},${y + 232})`}>
+              <g transform={`translate(${x + 52},${y + 314})`}>
                 <line x1={0} y1={14} x2={0} y2={-16} stroke="#334155" strokeWidth={2.4} />
                 <path d="M-7 14 L0 -2 L7 14" fill="none" stroke="#334155" strokeWidth={1.4} />
                 <circle cx={0} cy={-18} r={2.6} fill="#0ea5e9" />
@@ -344,7 +395,7 @@ export default function IsometricArchitecture() {
                   Cyber Probe
                 </text>
               </g>
-              <text x={x + 190} y={y + 312} textAnchor="middle" fontSize={13} fontWeight={800} fill={color}>
+              <text x={x + 190} y={y + 394} textAnchor="middle" fontSize={13} fontWeight={800} fill={color}>
                 Region {n}
               </text>
             </g>
@@ -428,6 +479,10 @@ export default function IsometricArchitecture() {
           <text x={42} y={40}>A1 Interface</text>
           <line x1={0} y1={58} x2={34} y2={58} stroke="#8b5cf6" strokeWidth={2} strokeDasharray="7 5" />
           <text x={42} y={62}>Inter-platform threat sharing</text>
+          <line x1={0} y1={80} x2={34} y2={80} stroke="#2563eb" strokeWidth={1.9} markerEnd="url(#ia-blue)" />
+          <text x={42} y={84}>Correlated detection evidence</text>
+          <line x1={0} y1={102} x2={34} y2={102} stroke="#0d9488" strokeWidth={1.8} strokeDasharray="5 4" markerEnd="url(#ia-teal)" />
+          <text x={42} y={106}>Guarded mitigation dispatch</text>
         </g>
       </svg>
     </div>

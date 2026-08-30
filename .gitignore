@@ -4,3 +4,6 @@ dist
 
 # Office lock files
 ~$*
+
+# large drawio source export (image is committed as src/assets/architecture-v2.png)
+updated-architecture-diagram.drawio.png

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { RegionChip, Block } from '../components/ui'
 import { PageId } from '../router'
-import archImg from '../assets/overview-image-new.jpeg'
+import archImg from '../assets/architecture-v2.png'
 
 const stats = [
   ['4', 'Near-RT RIC regions', 'ric-1 … ric-4, fully isolated'],
@@ -98,9 +98,9 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
         intro={
           <>
             The full platform on one canvas: the Non-RT RIC / O-Cloud / SMO layer hosting the MCP Server, Global RAG
-            Agent, threat-intel rApps and global dashboard, over the regional Near-RT RICs. Each one carries its own
-            Threat Simulator, Probe Manager, Mini RAG Agent and Inter-Platform Agent, connected to its RAN layer
-            over the E2 interface.
+            Agent, Inter-Platform Agent, data ingestion rApp and vendor notification, over the regional Near-RT RICs.
+            Each region carries xApp1, xApp2, an MCP client and a Mini RAG Agent, with its own Security Correlator
+            and observability stack feeding detection, and its RAN connected over the E2 interface.
           </>
         }
         className="mt-10"
@@ -121,8 +121,8 @@ export default function OverviewPage({ navigate }: { navigate: (p: PageId) => vo
           </div>
           <figcaption className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-slate-50/60 px-5 py-3 text-xs text-slate-500">
             <span>
-              System architecture: Non-RT RIC / SMO platform over the regional Near-RT RICs and their domain-specific
-              RANs (rural connectivity, university campus, smart city / tech park).
+              System architecture: Non-RT RIC / SMO platform over the regional Near-RT RICs, now including the
+              per-region Security Correlator and observability stack that drive detection.
             </span>
             <button
               onClick={() => navigate('architecture')}
