@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { PageHeader, Block, FileBadge, Endpoint } from '../components/ui'
 import mttmImg from '../assets/results/mttm.png'
 import lifecycleImg from '../assets/results/mitigation-lifecycle.png'
@@ -119,20 +120,112 @@ function GrowthChart() {
   )
 }
 
-function Figure({ src, alt, caption, ratio, maxH }: { src: string; alt: string; caption: string; ratio: number; maxH?: number }) {
+type LbItem = { src: string; alt: string; caption: string }
+
+function Figure({
+  src,
+  alt,
+  caption,
+  ratio,
+  maxH,
+  onOpen,
+}: {
+  src: string
+  alt: string
+  caption: string
+  ratio: number
+  maxH?: number
+  onOpen: (item: LbItem) => void
+}) {
   return (
     <figure className="card overflow-hidden">
-      <div className="flex items-center justify-center bg-slate-50/60 p-3">
-        <img src={src} alt={alt} className="w-full rounded-lg" style={{ maxHeight: maxH ?? 340, width: 'auto', aspectRatio: String(ratio) }} />
-      </div>
+      <button
+        type="button"
+        onClick={() => onOpen({ src, alt, caption })}
+        aria-label={`Enlarge: ${alt}`}
+        className="group relative flex w-full cursor-zoom-in items-center justify-center bg-slate-50/60 p-3"
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="w-full rounded-lg transition-transform duration-300 group-hover:scale-[1.015]"
+          style={{ maxHeight: maxH ?? 340, width: 'auto', aspectRatio: String(ratio) }}
+        />
+        <span className="pointer-events-none absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-slate-900/85 px-2.5 py-1 text-[11px] font-semibold text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-4.2-4.2M11 8v6M8 11h6" />
+          </svg>
+          Click to enlarge
+        </span>
+      </button>
       <figcaption className="border-t border-line px-4 py-2.5 text-xs leading-relaxed text-slate-500">{caption}</figcaption>
     </figure>
   )
 }
 
+function Lightbox({ item, onClose }: { item: LbItem | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!item) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = previous
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [item, onClose])
+
+  return (
+    <AnimatePresence>
+      {item && (
+        <motion.div
+          key="lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={item.alt}
+          onClick={onClose}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-[100] flex cursor-zoom-out flex-col items-center justify-center bg-slate-950/90 p-4 backdrop-blur-sm sm:p-8"
+        >
+          <motion.img
+            src={item.src}
+            alt={item.alt}
+            onClick={(e) => e.stopPropagation()}
+            initial={{ scale: 0.94, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.96, opacity: 0 }}
+            transition={{ duration: 0.25, ease: EASE }}
+            className="max-h-[82vh] max-w-full cursor-default rounded-xl bg-white shadow-2xl"
+          />
+          <p className="mt-4 max-w-3xl text-center text-sm leading-relaxed text-slate-200">{item.caption}</p>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close enlarged image"
+            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
 export default function ResultsPage() {
+  const [lightbox, setLightbox] = useState<LbItem | null>(null)
   return (
     <div className="mx-auto max-w-6xl px-4">
+      <Lightbox item={lightbox} onClose={() => setLightbox(null)} />
       <PageHeader
         kicker="Results & Evaluation"
         title={
@@ -326,12 +419,14 @@ export default function ResultsPage() {
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <Figure
+            onOpen={setLightbox}
             src={mttmImg}
             alt="Mean time to mitigate, full regional loop versus pre-armed peer"
             ratio={662 / 383}
             caption="Mean time-to-mitigate over N = 10 bounded quarantine runs. A peer already carrying the shared intelligence responds without repeating the full analysis loop."
           />
           <Figure
+            onOpen={setLightbox}
             src={lifecycleImg}
             alt="Persisted mitigation candidate lifecycle in the operator view"
             ratio={1465 / 762}
@@ -390,6 +485,7 @@ export default function ResultsPage() {
       >
         <div className="grid gap-4 lg:grid-cols-[420px_1fr]">
           <Figure
+            onOpen={setLightbox}
             src={ipaSharedImg}
             alt="Threat intelligence received through the Inter-Platform Agent"
             ratio={861 / 722}
@@ -429,6 +525,7 @@ export default function ResultsPage() {
       >
         <div className="grid gap-4 lg:grid-cols-[360px_1fr]">
           <Figure
+            onOpen={setLightbox}
             src={notificationImg}
             alt="Delivered threat notification email"
             ratio={632 / 861}
@@ -437,6 +534,7 @@ export default function ResultsPage() {
           />
           <div className="space-y-4">
             <Figure
+              onOpen={setLightbox}
               src={feedbackImg}
               alt="Operator action and knowledge feedback capture"
               ratio={862 / 842}
